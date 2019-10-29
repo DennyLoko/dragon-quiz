@@ -1,4 +1,3 @@
-drop database dbz;
 create database dbz;
 use dbz;
 
