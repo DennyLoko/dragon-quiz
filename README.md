@@ -10,3 +10,9 @@ Trabalho de POO da Una Betim
 - Hermes Francisco
 - Jonathan 
 - Yuri Asthar
+
+## Banco de dados
+
+### Diagrama
+
+![diagrama](db/diagram.png "Diagrama")
