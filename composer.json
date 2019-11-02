@@ -3,7 +3,9 @@
     "description": "Trabalho de POO da Una Betim",
     "type": "project",
     "license": "MIT",
-    "require": {},
+    "require": {
+        "php-di/php-di": "^6.0"
+    },
     "autoload": {
         "psr-4": {
             "DragonQuiz\\": "src/"
