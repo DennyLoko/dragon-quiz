@@ -195,3 +195,7 @@ diagram.mwb.bak
 diagram.mwb.beforefix
 
 .idea/
+
+src/view/cache/*
+!src/view/cache/.gitkeep
+.DS_Store
