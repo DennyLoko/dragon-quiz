@@ -7,6 +7,7 @@ use DI\ContainerBuilder;
 use function DI\create;
 use function DI\get;
 use DragonQuiz\Controller\HelloWorld;
+use DragonQuiz\Controller\RankController;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 use Middlewares\FastRoute;
@@ -29,6 +30,7 @@ $twig = new Environment($loader, [
 
 $containerBuilder->addDefinitions([
     HelloWorld::class => create(HelloWorld::class)->constructor(get('Response'), get('Twig')),
+    RankController::class => create(RankController::class)->constructor(get('Response'), get('Twig')),
     'Response' => function() {
         return new Response();
     },
@@ -41,6 +43,7 @@ $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
     $r->get('/', HelloWorld::class);
+    $r->get('/ranking', RankController::class);
 });
 
 $middlewareQueue[] = new FastRoute($routes);
