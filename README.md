@@ -10,6 +10,7 @@ Trabalho de POO da Una Betim
 - Hermes Francisco
 - Jonathan Araujo
 - Yuri Asthar
+- Giovanna Gil
 
 ## Banco de dados
 
