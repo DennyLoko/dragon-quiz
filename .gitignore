@@ -199,3 +199,5 @@ diagram.mwb.beforefix
 src/view/cache/*
 !src/view/cache/.gitkeep
 .DS_Store
+
+data/
