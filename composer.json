@@ -10,7 +10,10 @@
         "middlewares/fast-route": "^1.2",
         "middlewares/request-handler": "^1.4",
         "narrowspark/http-emitter": "^1.0",
-        "twig/twig": "^2.0"
+        "twig/twig": "^2.0",
+        "doctrine/orm": "^2.6.2",
+        "symfony/yaml": "2.*",
+        "vlucas/phpdotenv": "^3.6"
     },
     "autoload": {
         "psr-4": {
