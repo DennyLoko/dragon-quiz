@@ -18,22 +18,28 @@ use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
 
+require_once dirname(__DIR__) . '/bootstrap.php';
+
 $containerBuilder = new ContainerBuilder();
 $containerBuilder->useAutowiring(false);
 $containerBuilder->useAnnotations(false);
 
-$loader = new FilesystemLoader(dirname(__DIR__) . '/src/view/');
-$twig = new Environment($loader, [
-    'cache' => dirname(__DIR__) . '/src/view/cache/',
-]);
-
 $containerBuilder->addDefinitions([
-    HelloWorld::class => create(HelloWorld::class)->constructor(get('Response'), get('Twig')),
+    HelloWorld::class => create(HelloWorld::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
     'Response' => function() {
         return new Response();
     },
-    'Twig' => function() use($twig) {
+    'Twig' => function() {
+        $loader = new FilesystemLoader(dirname(__DIR__) . '/src/view/');
+
+        $twig = new Environment($loader, [
+            'cache' => dirname(__DIR__) . '/src/view/cache/',
+        ]);
+
         return $twig;
+    },
+    'EntityManager' => function() use($entityManager) {
+        return $entityManager;
     }
 ]);
 
