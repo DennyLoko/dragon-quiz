@@ -8,7 +8,7 @@ Trabalho de POO da Una Betim
 - Gabriel Vitor
 - Guilherme Chaves
 - Hermes Francisco
-- Jonathan 
+- Jonathan Araujo
 - Yuri Asthar
 
 ## Banco de dados
