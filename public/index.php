@@ -47,7 +47,6 @@ $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
     $r->get('/', HelloWorld::class);
-    $r->get('');
 });
 
 $middlewareQueue[] = new FastRoute($routes);
