@@ -1,8 +1,8 @@
-Pergunta: {{ question->getQuestion() }}<br />
+Pergunta: {{ question.getQuestion() }}<br />
 Respostas:
 
 <ul>
-{% for resposta in question->getAnswers() %}
-    <li>{{ resposta }}}</li>
+{% for resposta in question.getAnswers() %}
+    <li>{{ resposta.getAnswer() }}</li>
 {% endfor %}
 </ul>

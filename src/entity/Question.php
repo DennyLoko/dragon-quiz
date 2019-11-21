@@ -3,6 +3,7 @@
 namespace DragonQuiz\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -76,16 +77,16 @@ class Question
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getAnswers(): ArrayCollection {
+    public function getAnswers(): Collection {
         return $this->answers;
     }
 
     /**
-     * @param ArrayCollection $answers
+     * @param Collection $answers
      */
-    public function setAnswers(ArrayCollection $answers) {
+    public function setAnswers(Collection $answers) {
         $this->answers = $answers;
     }
 }
