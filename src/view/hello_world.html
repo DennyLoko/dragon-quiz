@@ -1,1 +1,8 @@
-Hello {{ name }}!
+Pergunta: {{ question->getQuestion() }}<br />
+Respostas:
+
+<ul>
+{% for resposta in question->getAnswers() %}
+    <li>{{ resposta }}}</li>
+{% endfor %}
+</ul>
