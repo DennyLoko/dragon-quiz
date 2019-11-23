@@ -51,6 +51,8 @@ $routes = simpleDispatcher(function (RouteCollector $r) {
     $r->get('/', HelloWorld::class);
 	$r->get('/register', UserController::class);
 	$r->get('/login', UserController::class);
+	$r->post('/register', UserController::class);
+	$r->post('/login', UserController::class);
 });
 
 $middlewareQueue[] = new FastRoute($routes);
