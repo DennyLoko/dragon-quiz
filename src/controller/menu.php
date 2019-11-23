@@ -23,7 +23,7 @@ class menu extends Controller
         $response = $this->response->withHeader('Content-Type', 'text/html');
 
         $response->getBody()
-            ->write($this->twig->render('hello_world.html', ['name' => 'Danniel']));
+            ->write($this->twig->render('menu.html', ['name' => 'Danniel']));
 
         return $response;
 
