@@ -7,6 +7,7 @@ use DI\ContainerBuilder;
 use function DI\create;
 use function DI\get;
 use DragonQuiz\Controller\HelloWorld;
+use DragonQuiz\Controller\UserController;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 use Middlewares\FastRoute;
@@ -26,6 +27,7 @@ $containerBuilder->useAnnotations(false);
 
 $containerBuilder->addDefinitions([
     HelloWorld::class => create(HelloWorld::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
+	UserController::class => create(UserController::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
     'Response' => function() {
         return new Response();
     },
@@ -47,6 +49,8 @@ $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
     $r->get('/', HelloWorld::class);
+	$r->get('/register', UserController::class);
+	$r->get('/login', UserController::class);
 });
 
 $middlewareQueue[] = new FastRoute($routes);
