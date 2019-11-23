@@ -4,6 +4,7 @@ namespace DragonQuiz\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface;
+use DragonQuiz\Entity\User;
 use Twig\Environment;
 
 class UserController extends Controller
@@ -18,11 +19,17 @@ class UserController extends Controller
         $this->em = $em;
     }
 	
-	function register(){
+	function register($name, $email, $password, $cpassword){
 		
+		if($password == $cpassword){
 		$u = new User();
-		
-		
+		$u ->setusername($name);
+		$u ->setemail($email);
+		$u ->setpass(md5($password));
+		$this->em->persist($u);
+		$this->em->flush();
+		$this->em->clear();
+		}else{echo"<script>alert('A senha não coincide');</script>";}
 		
 		
 	}
@@ -45,7 +52,7 @@ class UserController extends Controller
 			$password = $_POST['password'];
 			$cpassword = $_POST['cpassword'];
 			
-			$this->register();
+			$this->register($name, $email, $password, $cpassword);
 				
 			
 			}

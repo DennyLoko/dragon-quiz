@@ -132,7 +132,7 @@ class User
 
     // Sets ID of this User.
 
-    public function setemail($complted) 
+    public function setemail($email) 
 
     {
 
