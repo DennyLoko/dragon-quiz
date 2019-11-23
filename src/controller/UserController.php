@@ -17,6 +17,15 @@ class UserController extends Controller
         $this->twig = $twig;
         $this->em = $em;
     }
+	
+	function register(){
+		
+		$u = new User();
+		
+		
+		
+		
+	}
 
     public function __invoke(): ResponseInterface
     {
@@ -35,6 +44,8 @@ class UserController extends Controller
             $email = $_POST['email'];
 			$password = $_POST['password'];
 			$cpassword = $_POST['cpassword'];
+			
+			$this->register();
 				
 			
 			}
@@ -63,6 +74,6 @@ class UserController extends Controller
 
         return $response;
 		
-		function register(){echo '<script>alert('foi')'}
+		
     }
 }
