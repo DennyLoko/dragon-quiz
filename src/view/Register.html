@@ -8,16 +8,16 @@
 <form method='POST' action=''>
 	
 	<label for='name'>Nome de Usuário:</label>
-	<input type='text' id='name' name='name' placeholder='Username' value='{{name}}'>
+	<input type='text' id='name' name='name' placeholder='Username' value='{{name}}' required>
 	
 	<label for='email'>Email:</label>
-	<input type='text' id='email' name='email' placeholder='Email' value='{{email}}'>
+	<input type='text' id='email' name='email' placeholder='Email' value='{{email}}' required>
 	
 	<label for='password'>Senha:</label>
-	<input type='password' name='password' id='password' placeholder='Senha' value='{{password}}'>
+	<input type='password' name='password' id='password' placeholder='Senha' value='{{password}}' required>
 	
 	<label for='cpassword'>Confirmar Senha:</label>
-	<input type='password' name='cpassword' id='cpassword' placeholder='Confirmar Senha' value='{{cpassword}}'>
+	<input type='password' name='cpassword' id='cpassword' placeholder='Confirmar Senha' value='{{cpassword}}' required>
 	
 	<input type='submit' id='register'/>
 
