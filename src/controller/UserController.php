@@ -26,13 +26,31 @@ class UserController extends Controller
 		$u ->setusername($name);
 		$u ->setemail($email);
 		$u ->setpass(md5($password));
+		try{
 		$this->em->persist($u);
 		$this->em->flush();
 		$this->em->clear();
-		}else{echo"<script>alert('A senha não coincide');</script>";}
+		}catch(\Exception $erro){
+			//echo $erro->getMessage();
+			if($erro->getErrorCode() == '1062'){
+				
+			
+				$array = explode('key', $erro->getMessage());
+				if($array[1] == " 'username_UNIQUE'"){echo"<script>alert('Usuario já cadastrado');</script>
+														  <style type='text/css'>#name{border-color:red;}</style>";}
+				if($array[1] == " 'email_UNIQUE'"){echo"<script>alert('Email já cadastrado');</script>
+														  <style type='text/css'>#email{border-color:red;}</style>";}
+							
+				
+			}else if($erro->getErrorCode() == '2002'){echo"<script>alert('Falha na conexão');</script>";}
 		
-		
+		}		
+		}else{echo"<script>alert('A senha não coincide');</script>
+				   <style type='text/css'>#cpassword{border-color:red;}</style>";}
+			
 	}
+	
+	
 
     public function __invoke(): ResponseInterface
     {
