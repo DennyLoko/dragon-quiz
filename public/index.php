@@ -6,7 +6,7 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 use DI\ContainerBuilder;
 use function DI\create;
 use function DI\get;
-use DragonQuiz\Controller\HelloWorld;
+use DragonQuiz\Controller\menu;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 use Middlewares\FastRoute;
@@ -25,7 +25,7 @@ $containerBuilder->useAutowiring(false);
 $containerBuilder->useAnnotations(false);
 
 $containerBuilder->addDefinitions([
-    HelloWorld::class => create(HelloWorld::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
+    menu::class => create(menu::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
     'Response' => function() {
         return new Response();
     },
@@ -46,7 +46,7 @@ $containerBuilder->addDefinitions([
 $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
-    $r->get('/', HelloWorld::class);
+    $r->get('/', menu::class);
 });
 
 $middlewareQueue[] = new FastRoute($routes);
