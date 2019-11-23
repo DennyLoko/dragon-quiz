@@ -62,5 +62,7 @@ class UserController extends Controller
 			}
 
         return $response;
+		
+		function register(){echo '<script>alert('foi')'}
     }
 }
