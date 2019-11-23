@@ -30,6 +30,7 @@ class UserController extends Controller
 		$this->em->persist($u);
 		$this->em->flush();
 		$this->em->clear();
+		echo"<script>alert('Cadastrado com Sucesso')</script>";
 		}catch(\Exception $erro){
 			//echo $erro->getMessage();
 			if($erro->getErrorCode() == '1062'){
@@ -44,7 +45,8 @@ class UserController extends Controller
 				
 			}else if($erro->getErrorCode() == '2002'){echo"<script>alert('Falha na conexão');</script>";}
 		
-		}		
+		}
+        		
 		}else{echo"<script>alert('A senha não coincide');</script>
 				   <style type='text/css'>#cpassword{border-color:red;}</style>";}
 			
