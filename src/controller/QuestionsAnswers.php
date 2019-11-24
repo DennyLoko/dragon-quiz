@@ -64,14 +64,6 @@ class QuestionsAnswers extends Controller
         //pegar uma pergunta aleatoria no banco e suas respostas
         //select * from answers where question_id = $question;
 
-        $question = str_shuffle ('My dick' );
-
-        $answers = [
-            "Piccolo",
-            "Goku",
-            "Vegeta",
-        ];
-
         $response = $this->response->withHeader('Content-Type', 'text/html');
         $response
             ->getBody()
@@ -80,7 +72,7 @@ class QuestionsAnswers extends Controller
         return $response;
     }
 
-    public function updatePoints(): RedirectResponse
+    public function updatePoints()
     {
         $answers = null;
         $question = $_POST['question'];
