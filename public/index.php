@@ -7,6 +7,7 @@ use DI\ContainerBuilder;
 use function DI\create;
 use function DI\get;
 use DragonQuiz\Controller\HelloWorld;
+use DragonQuiz\Controller\QuestionsAnswers;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 use Middlewares\FastRoute;
@@ -28,8 +29,24 @@ $containerBuilder->useAutowiring(false);
 $containerBuilder->useAnnotations(false);
 
 $containerBuilder->addDefinitions([
-    HelloWorld::class => create(HelloWorld::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
-    Admin::class => create(Admin::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
+    Admin::class => create(Admin::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
+    HelloWorld::class => create(HelloWorld::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
+    QuestionsAnswers::class => create(QuestionsAnswers::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
     'Response' => function() {
         return new Response();
     },
@@ -50,9 +67,10 @@ $containerBuilder->addDefinitions([
 $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
-    $r->get('/', HelloWorld::class);
     $r->get('/admin', Admin::class);
     $r->post('/admin', Admin::class);
+    $r->get('/jogo', [QuestionsAnswers::class, 'index']);
+    $r->get('/jogo/{id}', [QuestionsAnswers::class, 'updatePoints']);
 });
 
 $middlewareQueue[] = new FastRoute($routes);
