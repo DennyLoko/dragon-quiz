@@ -94,7 +94,7 @@ class User
 
     // Returns username.
 
-    public function getusername() 
+    public function getUsername() 
 
     {
 
@@ -106,7 +106,7 @@ class User
 
     // Sets username.
 
-    public function setusername($username) 
+    public function setUsername($username) 
 
     {
 
@@ -120,7 +120,7 @@ class User
 
     // Returns email of this User.
 
-    public function getemail() 
+    public function getEmail() 
 
     {
 
@@ -132,7 +132,7 @@ class User
 
     // Sets ID of this User.
 
-    public function setemail($email) 
+    public function setEmail($email) 
 
     {
 
@@ -144,7 +144,7 @@ class User
 
     // Returns username.
 
-    public function getpass() 
+    public function getPass() 
 
     {
 
@@ -156,7 +156,7 @@ class User
 
     // Sets username.
 
-    public function setpass($pass) 
+    public function setPass($pass) 
 
     {
 

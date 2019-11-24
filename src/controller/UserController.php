@@ -23,9 +23,9 @@ class UserController extends Controller
 		
 		if($password == $cpassword){
 		$u = new User();
-		$u ->setusername($name);
-		$u ->setemail($email);
-		$u ->setpass(md5($password));
+		$u ->setUsername($name);
+		$u ->setEmail($email);
+		$u ->setPass(md5($password));
 		try{
 		$this->em->persist($u);
 		$this->em->flush();
