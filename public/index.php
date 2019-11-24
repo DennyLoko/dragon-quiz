@@ -17,6 +17,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
+use DragonQuiz\Controller\Admin;
 
 $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], (strlen('/dragon-quiz/public')));
 
@@ -28,6 +29,7 @@ $containerBuilder->useAnnotations(false);
 
 $containerBuilder->addDefinitions([
     HelloWorld::class => create(HelloWorld::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
+    Admin::class => create(Admin::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
     'Response' => function() {
         return new Response();
     },
@@ -49,6 +51,8 @@ $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
     $r->get('/', HelloWorld::class);
+    $r->get('/admin', Admin::class);
+    $r->post('/admin', Admin::class);
 });
 
 $middlewareQueue[] = new FastRoute($routes);
@@ -59,3 +63,4 @@ $response = $requestHandler->handle(ServerRequestFactory::fromGlobals());
 
 $emitter = new SapiEmitter();
 return $emitter->emit($response);
+
