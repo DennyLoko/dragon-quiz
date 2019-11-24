@@ -53,6 +53,7 @@ $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
     $r->get('/jogo', [QuestionsAnswers::class, 'index']);
+    $r->get('/jogo/{answer}', [QuestionsAnswers::class, 'numzei']);
 });
 
 $middlewareQueue[] = new FastRoute($routes);

@@ -21,7 +21,7 @@ class QuestionsAnswers extends Controller
 
     public function index(): ResponseInterface
     {
-        $question = 'Quem matou o goku quando Raditz veio para a Terra ?';
+        $question = str_shuffle ('My dick' );
 
         $answers = [
             "Piccolo",
@@ -32,7 +32,19 @@ class QuestionsAnswers extends Controller
         $response = $this->response->withHeader('Content-Type', 'text/html');
         $response
             ->getBody()
-            ->write($this->twig->render('questions_answers.html', ['question' => $question, 'answers' => [$answers]]));
+            ->write($this->twig->render('questions_answers.html', ['question' => $question, 'answers' => $answers]));
+
+        return $response;
+    }
+
+    public function update($answer, $request)
+    {
+        $answer = $request->input;
+
+        $response = $this->response->withHeader('Content-Type', 'text/html');
+        $response
+            ->getBody()
+            ->write($this->twig->render('questions_answers.html'));
 
         return $response;
     }
