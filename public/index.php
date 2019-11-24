@@ -29,6 +29,7 @@ $containerBuilder->useAutowiring(false);
 $containerBuilder->useAnnotations(false);
 
 $containerBuilder->addDefinitions([
+
     Admin::class => create(Admin::class)
         ->constructor(
             get('Response'),
@@ -61,6 +62,7 @@ $containerBuilder->addDefinitions([
 $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
+
     $r->get('/admin', Admin::class);
     $r->post('/admin', Admin::class);
     $r->get('/jogo', [QuestionsAnswers::class, 'index']);

@@ -3,6 +3,7 @@
 namespace DragonQuiz\Controller;
 
 use Doctrine\ORM\EntityManager;
+
 use DragonQuiz\Entity\Question;
 use http\Env\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -62,6 +63,14 @@ class QuestionsAnswers extends Controller
     {
         //pegar uma pergunta aleatoria no banco e suas respostas
         //select * from answers where question_id = $question;
+
+        $question = str_shuffle ('My dick' );
+
+        $answers = [
+            "Piccolo",
+            "Goku",
+            "Vegeta",
+        ];
 
         $response = $this->response->withHeader('Content-Type', 'text/html');
         $response
