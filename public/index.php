@@ -19,6 +19,8 @@ use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
 
+$_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], (strlen('/dragon-quiz/public')));
+
 require_once dirname(__DIR__) . '/bootstrap.php';
 
 $containerBuilder = new ContainerBuilder();
