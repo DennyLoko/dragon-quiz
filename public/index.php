@@ -54,16 +54,16 @@ $containerBuilder->addDefinitions([
 $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
-  $r->get('/', HelloWorld::class);
-  
-  $r->get('/admin', Admin::class);
-  $r->post('/admin', Admin::class);
-  
-	$r->get('/register', UserController::class);
-  $r->post('/register', UserController::class);
-  
-	$r->get('/login', UserController::class);
-	$r->post('/login', UserController::class);
+    $r->get('/', HelloWorld::class);
+
+    $r->get('/admin', Admin::class);
+    $r->post('/admin', Admin::class);
+
+    $r->get('/register', UserController::class);
+    $r->post('/register', UserController::class);
+
+    $r->get('/login', UserController::class);
+    $r->post('/login', UserController::class);
 });
 
 $middlewareQueue[] = new FastRoute($routes);
