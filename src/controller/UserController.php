@@ -39,7 +39,11 @@ class UserController extends Controller
                 $this
                     ->em
                     ->clear();
+				//cookies
                 echo "<script>alert('Cadastrado com Sucesso')</script>";
+				setcookie("dbz-user-email",$u->getEmail());
+				setcookie("dbz-user-token",md5($u->getUsername().$u->getPass()));
+				echo "<meta http-equiv='refresh' content='0; url=/dragon-quiz/public/'>";
             }
             catch(\Exception $erro)
             {
@@ -123,3 +127,4 @@ class UserController extends Controller
         }
     }
     
+?>
