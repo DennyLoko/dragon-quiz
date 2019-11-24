@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<head>
+
+<body>
+  <title>Cadastrar Perguntas e Respostas</title>
+
+  <h2>Cadastro de Perguntas</h2>
+
+  <form method="POST">
+    Digite sua pergunta:<br>
+    <input type="text" method="POST" name="question">
+
+    Pontos:
+    <input type="number" name="points" min="1" max="1000">
+    <br>
+    Digite sua resposta:<br>
+    {% for i in 0..10 %}
+    <input type="text" name="answer[]">
+    <select name="iscorrect[]">
+      <option value="0">Falsa</option>
+      <option value="1">Verdadeira</option>
+    </select>
+    <br>
+    {% endfor %}
+    <input type="submit" value="Salvar">
+
+  </form>
+
+
+
+</body>
+</head>
+
+</html>
