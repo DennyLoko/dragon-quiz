@@ -28,10 +28,6 @@ $containerBuilder->useAutowiring(false);
 $containerBuilder->useAnnotations(false);
 
 $containerBuilder->addDefinitions([
-    HelloWorld::class => create(HelloWorld::class)
-        ->constructor(get('Response'),
-            get('Twig'),
-            get('EntityManager')),
     QuestionsAnswers::class => create(QuestionsAnswers::class)
         ->constructor(get('Response'),
             get('Twig'),
