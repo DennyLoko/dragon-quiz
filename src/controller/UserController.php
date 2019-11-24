@@ -84,15 +84,14 @@ class UserController extends Controller
     {
 		try
 		{
-			$conn = $this->em
+			$conn = $this
+			->em
             ->getConnection();
+			
 			$sql = "SELECT * FROM user WHERE username = '".$name."' OR email = '".$name."'";
-			
 			$stmt = $conn->prepare($sql);
-			
 			$stmt->execute();
-			
-						
+									
 			$u = $stmt->fetch();
 			
 			if($u != null){
