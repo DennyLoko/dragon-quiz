@@ -30,24 +30,16 @@ class Admin extends Controller
                 if ($answer!=""){
                     $question->addAnswer($answer,(int) $_POST["iscorrect"][$i]);
                 }
-               
             }
-
 
             $this->em->persist($question);
             $this->em->flush();
-        }
-            
-        
+        }        
 
         $response = $this->response->withHeader('Content-Type', 'text/html');
         $response->getBody()
             ->write($this->twig->render('Admin.html'));
 
-        return $response;
-        //return $this->redirect("/question/mostra/".$question->getAnswer());
-    
-      
-                
+        return $response;                
     }
 }
