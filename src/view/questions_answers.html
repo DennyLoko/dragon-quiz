@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Perguntas e Respostas</title>
+</head>
+<body>
+    </div class="container-fluid">
+        <h1>Perguntas</h1>
+
+        <h1> {{ question }} </h1>
+
+        <form>
+            {% for value in answers %}
+            {{ value }}
+            {% endfor %}
+        </form>
+    </div>
+</body>
+</html>
