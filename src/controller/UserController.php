@@ -79,6 +79,44 @@ class UserController extends Controller
         }
 
     }
+	
+	function login($name, $password)
+    {
+		try
+		{
+			$conn = $this->em
+            ->getConnection();
+			$sql = "SELECT * FROM user WHERE username = '".$name."' OR email = '".$name."'";
+			
+			$stmt = $conn->prepare($sql);
+			
+			$stmt->execute();
+			
+						
+			$u = $stmt->fetch();
+			
+			if($u != null){
+				
+				if($u["pass"] == md5($password)){
+				setcookie("dbz-user-email",$u["email"]);
+				setcookie("dbz-user-token",md5($u["username"].$u["pass"]));
+				echo "<meta http-equiv='refresh' content='0; url=/dragon-quiz/public/'>";
+			}else{
+				echo "<script>alert('Senha incorreta');</script>
+				  <style type='text/css'>#password{border-color:red;}</style>";			
+			}
+			}else{
+				echo "<script>alert('Usuário não cadastrado');</script>
+				  <style type='text/css'>#name{border-color:red;}</style>";
+			}
+		}catch(\Exception $erro)
+		{
+			echo $erro;
+		}
+			
+		
+		
+	}
 
     public function __invoke():
         ResponseInterface
@@ -114,11 +152,23 @@ class UserController extends Controller
             }
             else
             {
+				$name = '';
+                $password = '';
+                
+                if (count($_POST) > 0)
+                {
+
+                    $name = $_POST['name'];
+                    $password = $_POST['password'];
+                    
+                    $this->login($name, $password);
+
+                }
 
                 $response->getBody()
                     ->write($this
                     ->twig
-                    ->render('login.html', ['name' => 'Danniel']));
+                    ->render('login.html', ['name' => $name, 'password' => $password]));
 
             }
 
