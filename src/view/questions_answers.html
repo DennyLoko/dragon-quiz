@@ -6,14 +6,14 @@
 </head>
 <body>
     </div class="container-fluid">
-        <h1>Perguntas</h1>
-
         <h1> {{ question }} </h1>
 
         <form>
-            {% for value in answers %}
-            {{ value }}
+            {% for answer in answers %}
+            <input type="radio" name="answer" value="{{answer}}">{{ answer }}
             {% endfor %}
+
+            <input class="btn btn-success" type="submit">
         </form>
     </div>
 </body>

@@ -37,8 +37,10 @@ class QuestionsAnswers extends Controller
         return $response;
     }
 
-    public function updatePoints(): ResponseInterface
+    public function update($answer, $request)
     {
+        $answer = $request->input;
+        
         $response = $this->response->withHeader('Content-Type', 'text/html');
         $response
             ->getBody()
