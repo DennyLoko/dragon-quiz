@@ -20,7 +20,9 @@ use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
 
-$_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], (strlen('/dragon-quiz/public')));
+if (PHP_OS != "Linux") {
+    $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], (strlen('/dragon-quiz/public')));
+}
 
 require_once dirname(__DIR__) . '/bootstrap.php';
 
