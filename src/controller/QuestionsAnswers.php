@@ -42,6 +42,7 @@ class QuestionsAnswers extends Controller
         $answer = $request->input;
 
         $response = $this->response->withHeader('Content-Type', 'text/html');
+        //retorna uma rota
         $response
             ->getBody()
             ->write($this->twig->render('questions_answers.html'));
