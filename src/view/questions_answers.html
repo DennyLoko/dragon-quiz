@@ -6,11 +6,23 @@
 </head>
 <body>
     </div class="container-fluid">
-        <h1> {{ question }} </h1>
+        <form method="POST" action="">
+            <label for="question">
+                <h1>{{ question.question }}</h1>
+            </label>
 
-        <form>
+            <input type="hidden" name="question" id="question" value="{{ question.id }}">
+
+            <br>
+
             {% for answer in answers %}
-            <input type="radio" name="answer" value="{{answer}}">{{ answer }}
+                <label for="answer">
+                    {{ answer.answer }}
+                </label>
+
+                <input type="radio" id="answer" name="answer" value="{{ answer.id }}">
+
+                <br>
             {% endfor %}
 
             <input class="btn btn-success" type="submit">

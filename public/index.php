@@ -64,7 +64,7 @@ $routes = simpleDispatcher(function (RouteCollector $r) {
     $r->get('/admin', Admin::class);
     $r->post('/admin', Admin::class);
     $r->get('/jogo', [QuestionsAnswers::class, 'index']);
-    $r->get('/jogo/{id}', [QuestionsAnswers::class, 'updatePoints']);
+    $r->post('/jogo', [QuestionsAnswers::class, 'updatePoints']);
 });
 
 $middlewareQueue[] = new FastRoute($routes);
