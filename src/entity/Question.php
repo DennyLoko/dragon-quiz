@@ -81,6 +81,4 @@ class Question
         $answer->setQuestion($this);
         $this->answers->add($answer);
     }
-
-
 }

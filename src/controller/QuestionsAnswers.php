@@ -26,48 +26,51 @@ class QuestionsAnswers extends Controller
         $this->twig = $twig;
         $this->em = $em;
 
-        $this->user = [
-            'id' => 1,
-            'username' => 'Yuri',
-        ];
+        $this->question = new Question();
 
-        $this->points = [
-            'id' => 1,
-            'points' => 0,
-            'user_id' => 1,
-        ];
-
-        $this->question = [
-            'id' => 1,
-            'question' => 'Quem matou o goku na luta contra raditz?',
-            'points' =>  3,
-        ];
-
-        $this->answers = [
-            [
-                'id' => 1,
-                'answer' => 'Gohan',
-                'is_correct' =>  0,
-                'question_id' => 1,
-            ],
-            [
-                'id' => 2,
-                'answer' => 'Piccolo',
-                'is_correct' =>  1,
-                'question_id' => 1,
-            ],
-        ];
+//        $this->user = [
+//            'id' => 1,
+//            'username' => 'Yuri',
+//        ];
+//
+//        $this->points = [
+//            'id' => 1,
+//            'points' => 0,
+//            'user_id' => 1,
+//        ];
+//
+//        $this->question = [
+//            'id' => 1,
+//            'question' => 'Quem matou o goku na luta contra raditz?',
+//            'points' =>  3,
+//        ];
+//
+//        $this->answers = [
+//            [
+//                'id' => 1,
+//                'answer' => 'Gohan',
+//                'is_correct' =>  0,
+//                'question_id' => 1,
+//            ],
+//            [
+//                'id' => 2,
+//                'answer' => 'Piccolo',
+//                'is_correct' =>  1,
+//                'question_id' => 1,
+//            ],
+//        ];
     }
 
     public function index(): ResponseInterface
     {
         //pegar uma pergunta aleatoria no banco e suas respostas
         //select * from answers where question_id = $question;
+        $question = $this->question->getQuestion();
 
         $response = $this->response->withHeader('Content-Type', 'text/html');
         $response
             ->getBody()
-            ->write($this->twig->render('questions_answers.html', ['question' => $this->question, 'answers' => $this->answers]));
+            ->write($this->twig->render('questions_answers.html', ['question' => $question]));
 
         return $response;
     }
