@@ -35,12 +35,6 @@ $containerBuilder->addDefinitions([
             get('Twig'),
             get('EntityManager')
         ),
-    HelloWorld::class => create(HelloWorld::class)
-        ->constructor(
-            get('Response'),
-            get('Twig'),
-            get('EntityManager')
-        ),
     QuestionsAnswers::class => create(QuestionsAnswers::class)
         ->constructor(
             get('Response'),
