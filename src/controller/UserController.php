@@ -34,8 +34,10 @@ class UserController extends Controller
                 $this->em->clear();
                 //cookies
                 echo "<script>alert('Cadastrado com Sucesso')</script>";
+
                 setcookie("dbz_user_email", $u->getEmail());
                 setcookie("dbz_user_token", md5($u->getUsername().$u->getPass()));
+                
                 echo "<meta http-equiv='refresh' content='0; url=/dragon-quiz/public/'>";
             } catch (\Exception $erro) {
                 //echo $erro->getMessage();
@@ -43,8 +45,8 @@ class UserController extends Controller
 
                     $array = explode('key', $erro->getMessage());
                     if ($array[1] == " 'username_UNIQUE'") {
-                        echo "<script>alert('Usuario já cadastrado');</script>
-						<style type='text/css'>#name{border-color:red;}</style>";
+                        echo "<script('Usuario já cadastrado');</script>
+						<style type='text/css'>#name{bordet>alerr-color:red;}</style>";
                     }
                     if ($array[1] == " 'email_UNIQUE'") {
                         echo "<script>alert('Email já cadastrado');</script>
@@ -92,6 +94,7 @@ class UserController extends Controller
     }
 
     public function __invoke(): ResponseInterface {
+
         $response = $this->response->withHeader('Content-Type', 'text/html');
 
         if ($_SERVER['REQUEST_URI'] == '/register') {
