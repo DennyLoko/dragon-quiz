@@ -3,12 +3,13 @@
 namespace DragonQuiz\Controller;
 
 use Doctrine\ORM\EntityManager;
-
-use DragonQuiz\Entity\Question;
+use Doctrine\ORM\Query\ResultSetMapping;
 use http\Env\Response;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment;
 use Zend\Diactoros\Response\RedirectResponse;
+use DragonQuiz\Entity\Question;
+use DragonQuiz\Entity\Answer;
 
 class QuestionsAnswers extends Controller
 {
@@ -17,90 +18,79 @@ class QuestionsAnswers extends Controller
     private $em;
     private $question;
     private $answers;
-    private $user;
     private $points;
+    private $user;
+
 
     public function __construct(ResponseInterface $response, Environment $twig, EntityManager $em)
     {
         $this->response = $response;
         $this->twig = $twig;
         $this->em = $em;
-
-        $this->question = new Question();
-
-//        $this->user = [
-//            'id' => 1,
-//            'username' => 'Yuri',
-//        ];
-//
-//        $this->points = [
-//            'id' => 1,
-//            'points' => 0,
-//            'user_id' => 1,
-//        ];
-//
-//        $this->question = [
-//            'id' => 1,
-//            'question' => 'Quem matou o goku na luta contra raditz?',
-//            'points' =>  3,
-//        ];
-//
-//        $this->answers = [
-//            [
-//                'id' => 1,
-//                'answer' => 'Gohan',
-//                'is_correct' =>  0,
-//                'question_id' => 1,
-//            ],
-//            [
-//                'id' => 2,
-//                'answer' => 'Piccolo',
-//                'is_correct' =>  1,
-//                'question_id' => 1,
-//            ],
-//        ];
+        $this->answers = [];
     }
 
-    public function index(): ResponseInterface
+    public function index()
     {
-        //pegar uma pergunta aleatoria no banco e suas respostas
-        //select * from answers where question_id = $question;
-        $question = $this->question->getQuestion();
+        $count = $this->em->getRepository(Question::class)->count([]);
+        $random = mt_rand(1, $count);
+        $question = $this->em->getRepository(Question::class)->findOneBy(['id' => $random]);
+
+        $this->question = $question;
+        $this->answers = $question->getAnswers();
 
         $response = $this->response->withHeader('Content-Type', 'text/html');
         $response
             ->getBody()
-            ->write($this->twig->render('questions_answers.html', ['question' => $question]));
+            ->write($this->twig->render('questions_answers.html', ['question' => $this->question, 'answers' => $this->answers]));
 
         return $response;
     }
 
     public function updatePoints()
     {
-        $answers = null;
+        // é o ID da questao
         $question = $_POST['question'];
+
+        //usuario
+        $conn = $this->em->getConnection();
+        $sql = "SELECT id FROM user WHERE id = 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $this->user = $stmt->fetch();
+
+        //pontos
+        $conn = $this->em->getConnection();
+        $sql = "SELECT * FROM points WHERE user_id = 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $this->points = $stmt->fetchAll();
+
 
         foreach ( $this->answers as $answer) {
             if ($_POST['answer'] == $answer['id']) {
-                $answers = $answer;
+                if ($answer['is_correct'] === 0) {
+                    return 'Errou';
+                }
+
+                foreach ($this->points as $point) {
+                    if ($point['user_id'] == $this->user['id']) {
+                        if ($this->question['id'] == $question) {
+                            $question = $this->question;
+
+                            $this->points['points'] += $question['points'];
+
+                            $response = new RedirectResponse('jogo');
+
+                            return $response;
+                        }
+                    }
+                }
             }
         }
 
-        if ($answers['is_correct'] === 0) {
-            return 'Errou';
-        }
 
-        if ($this->points['user_id'] == $this->user['id']) {
-            if ($this->question['id'] == $question) {
-                $question = $this->question;
 
-                $this->points['points'] += $question['points'];
-
-                $response = new RedirectResponse('jogo');
-
-                return $response;
-            }
-        }
 
         //$inputAnswer = $_POST['answer'];
         //$inputQuestion = $_POST['question'];

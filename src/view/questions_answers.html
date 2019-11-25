@@ -8,19 +8,19 @@
     </div class="container-fluid">
         <form method="POST" action="">
             <label for="question">
-                <h1>{{ question.question }}</h1>
+                <h1>{{ question.getQuestion() }}</h1>
             </label>
 
-            <input type="hidden" name="question" id="question" value="{{ question.id }}">
+            <input type="hidden" name="question" id="question" value="{{ question.getId() }}">
 
             <br>
 
             {% for answer in answers %}
-                <label for="answer">
-                    {{ answer.answer }}
-                </label>
+                <input type="radio" id="answer" name="answer" value="{{ answer.getId() }}">
 
-                <input type="radio" id="answer" name="answer" value="{{ answer.id }}">
+                <label for="answer">
+                    {{ answer.getAnswer() }}
+                </label>
 
                 <br>
             {% endfor %}
