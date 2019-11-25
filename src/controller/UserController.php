@@ -24,15 +24,13 @@ class UserController extends Controller
 
                 setcookie("dbz_user_email", $u->getEmail());
                 setcookie("dbz_user_token", md5($u->getUsername().$u->getPass()));
-                
+
                 echo "<meta http-equiv='refresh' content='0; url=/'>";
             } catch (\Exception $erro) {
                 //echo $erro->getMessage();
                 if ($erro->getErrorCode() == '1062') {
-					
-					echo "<script>alert('Usuário ou Email já cadastrado');</script>
+                    echo "<script>alert('Usuário ou Email já cadastrado');</script>
 					<style type='text/css'>#email, #name{border-color:red;}</style>";
-        			
                 } else {
                     if ($erro->getErrorCode() == '2002') {
                         echo "<script>alert('Falha na conexão');</script>";
@@ -93,8 +91,8 @@ class UserController extends Controller
             }
 
             $response->getBody()->write(
-                    $this->twig->render('register.html', ['name' => $name, 'email' => $email])
-                );
+                $this->twig->render('register.html', ['name' => $name, 'email' => $email])
+            );
         } else {
             $name = '';
 
@@ -107,8 +105,8 @@ class UserController extends Controller
             }
 
             $response->getBody()->write(
-                    $this->twig->render('login.html', ['name' => $name])
-                );
+                $this->twig->render('login.html', ['name' => $name])
+            );
         }
 
         return $response;

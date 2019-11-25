@@ -12,7 +12,7 @@ class Admin extends Controller
         return $this->responseHTML($this->twig->render('Admin.html'));
     }
 
-    public function save() : ResponseInterface {
+    public function save(): ResponseInterface {
         $question = new Question();
         $question->setQuestion($_POST["question"]);
         $question->setPoints($_POST["points"]);

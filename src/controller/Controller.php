@@ -20,8 +20,7 @@ abstract class Controller
         $this->em = $em;
     }
 
-    protected function responseHTML(string $body) : ResponseInterface
-    {
+    protected function responseHTML(string $body): ResponseInterface {
         $response = $this->response->withHeader('Content-Type', 'text/html');
         $response->getBody()->write($body);
 
