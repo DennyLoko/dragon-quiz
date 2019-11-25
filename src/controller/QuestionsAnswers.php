@@ -43,6 +43,7 @@ class QuestionsAnswers extends Controller
         if (!isset($_SESSION['question_count'])) {
             $_SESSION['question_count'] = 0;
 			//nova lina na tabela score
+			try{
 			$user = $this->em->getRepository(User::class)->findOneBy(['email' => $_COOKIE['dbz_user_email']]);
 			$conn = $this->em->getConnection();
 
