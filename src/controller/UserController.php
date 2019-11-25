@@ -4,11 +4,32 @@ namespace DragonQuiz\Controller;
 
 use Doctrine\ORM\EntityManager;
 use DragonQuiz\Entity\User;
+use DragonQuiz\Entity\Score;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment;
 
 class UserController extends Controller
 {
+	function firstscore($name){
+		
+		//$user = $this->em->getRepository(User::class)->findOneBy(['email' => $name]);
+		
+		
+        try {
+		$conn = $this->em->getConnection();
+
+            $sql = "INSERT INTO scores (user_id, points) VALUES(".$name->getId().", 0);";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+
+           
+			 } catch (\Exception $erro) {
+			 echo $erro->getMessage();	
+			 exit;}
+		
+
+         
+	}
     function register($name, $email, $password, $cpassword) {
         if ($password == $cpassword) {
             $u = new User();
@@ -19,6 +40,7 @@ class UserController extends Controller
                 $this->em->persist($u);
                 $this->em->flush();
                 $this->em->clear();
+				$this->firstscore($u);
                 //cookies
                 echo "<script>alert('Cadastrado com Sucesso')</script>";
                 setcookie("dbz_user_email", $u->getEmail());
