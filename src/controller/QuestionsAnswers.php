@@ -3,10 +3,7 @@
 namespace DragonQuiz\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Query\ResultSetMapping;
 use DragonQuiz\Entity\User;
-use http\Env\Response;
-use PhpParser\Node\Stmt\Return_;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment;
 use Zend\Diactoros\Response\RedirectResponse;
@@ -18,8 +15,6 @@ class QuestionsAnswers extends Controller
     private $response;
     private $twig;
     private $em;
-    private $question;
-    private $answers;
 
 
     public function __construct(ResponseInterface $response, Environment $twig, EntityManager $em)
@@ -27,10 +22,9 @@ class QuestionsAnswers extends Controller
         $this->response = $response;
         $this->twig = $twig;
         $this->em = $em;
-        $this->answers = [];
     }
 
-    public function index()
+    public function index(): ResponseInterface
     {
         if (isset($_SESSION['question_count']) && $_SESSION['question_count'] == 5) {
             return new RedirectResponse('admin');
@@ -40,18 +34,18 @@ class QuestionsAnswers extends Controller
         $random = mt_rand(1, $count);
         $question = $this->em->getRepository(Question::class)->findOneBy(['id' => $random]);
 
-        $this->question = $question;
-        $this->answers = $question->getAnswers();
-
         $response = $this->response->withHeader('Content-Type', 'text/html');
         $response
             ->getBody()
-            ->write($this->twig->render('questions_answers.html', ['question' => $this->question, 'answers' => $this->answers]));
+            ->write($this->twig->render('questions_answers.html', [
+                'question' => $question,
+                'answers' => $question->getAnswers(),
+            ]));
 
         return $response;
     }
 
-    public function updatePoints(): RedirectResponse
+    public function updatePoints(): ResponseInterface
     {
         if (!isset($_SESSION['question_count'])) {
             $_SESSION['question_count'] = 0;
@@ -61,13 +55,8 @@ class QuestionsAnswers extends Controller
 
         $answerId = $_POST['answer'];
 
-        $user = $this->em
-            ->getRepository(User::class)
-            ->findOneBy(['email' => $_COOKIE['dbz_user_email']]);
-
-        $answer = $this->em
-            ->getRepository(Answer::class)
-            ->findOneBy(['id' => $answerId]);
+        $user = $this->em->getRepository(User::class)->findOneBy(['email' => $_COOKIE['dbz_user_email']]);
+        $answer = $this->em->getRepository(Answer::class)->findOneBy(['id' => $answerId]);
 
         if (!$answer->getIsCorrect()) {
             return new RedirectResponse('jogo');
