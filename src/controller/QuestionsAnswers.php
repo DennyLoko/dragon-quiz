@@ -5,6 +5,7 @@ namespace DragonQuiz\Controller;
 use DragonQuiz\Entity\Answer;
 use DragonQuiz\Entity\Question;
 use DragonQuiz\Entity\User;
+use DragonQuiz\Entity\Score;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\RedirectResponse;
 
@@ -43,19 +44,20 @@ class QuestionsAnswers extends Controller
         if (!isset($_SESSION['question_count'])) {
             $_SESSION['question_count'] = 0;
 			//nova lina na tabela score
-			try{
 			$user = $this->em->getRepository(User::class)->findOneBy(['email' => $_COOKIE['dbz_user_email']]);
-			$conn = $this->em->getConnection();
+			try{	
+			$s = new Score;
+			$s->setPoints(0);
+			$s->setUser($user);
 
-            $sql = "INSERT INTO scores (user_id, points) VALUES(".$user->getId().", 0);";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-
-           
-			 } catch (\Exception $erro) {
+			$this->em->persist($s);
+			$this->em->flush();
+			$this->em->clear();
+			}catch(\Exception $erro) {
 			 echo $erro->getMessage();	
 			 exit;
-			 }
+			}
+			
         }
 
         $_SESSION['question_count']++;
