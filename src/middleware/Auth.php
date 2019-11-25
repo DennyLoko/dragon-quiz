@@ -5,7 +5,9 @@ namespace DragonQuiz\Middleware;
 use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Zend\Diactoros\Response\RedirectResponse;
 use Psr\Http\Server\MiddlewareInterface;
+use Zend\Diactoros\Uri;
 use Psr\Http\Server\RequestHandlerInterface;
 use Twig\Environment;
 
@@ -25,19 +27,23 @@ class Auth implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $path = $request->getUri()->getPath();
         $cookies = $request->getCookieParams();
 
-        if (!($_SERVER['REQUEST_URI'] == '/register' || $_SERVER['REQUEST_URI'] == '/login')) {
+        if (!($path == '/register' || $path == '/login')) {
 
             $response = $this->response->withHeader('Content-Type', 'text/html');
 
-            if (
-                !(isset($cookies['dbz_user_email']) && isset($cookies['dbz_user_token']))
-                && ($cookies['dbz_user_email'] == "" || $cookies['dbz_user_token'] == "")
-            ) {
+            if (!(isset($cookies['dbz_user_email']) && isset($cookies['dbz_user_token']))) {
 
-                return $response->getBody()
-                    ->write($this->twig->render('login.html'));
+                return new RedirectResponse('login');
+
+            }
+
+            if ($cookies['dbz_user_email'] == "" || $cookies['dbz_user_token'] == "") {
+
+                return new RedirectResponse('login');
+
             }
 
             $user = $this->em->getRepository('DragonQuiz\Entity\User')
@@ -45,25 +51,22 @@ class Auth implements MiddlewareInterface
 
             if ($user == null) {
 
-                return $response->getBody()
-                    ->write($this->twig->render('login.html'));
+                return new RedirectResponse('login');
+
             }
 
             $token = md5($user->getUsername() . $user->getPass());
-            var_dump($token);
 
             if ($cookies['dbz_user_token'] != $token) {
 
-                return $response->getBody()
-                    ->write($this->twig->render('login.html'));
+                return new RedirectResponse('login');
+
             }
 
-            if ($user->get_username() == 'admin') {
+            if ($user->getUsername() == 'admin') {
                 
-                if (isset($cookies['is_admin'])) {
-                    
-                    setcookie('isAdmin','true');
-                }
+                $_SESSION['isAdmin'] = true;
+
             }
         }
 

@@ -19,16 +19,13 @@
 
 
         <div class="options">
-            {% if $cookie['isAdmin'] == 'true' %}
+            
                 <button class="optionButton"><a href="/jogo">Começar</a></button>
                 <button class="optionButton"><a href="/raking">Ranking</a></button>
+            {% if isAdmin == true %}
                 <button class="optionButton"><a href="/admin">Adicionar pergunta</a></button>
             {% endif %}
-
-            {% if $cookie['isAdmin'] == 'false' %}
-                <button class="optionButton"><a href="/jogo">Começar</a></button>
-                <button class="optionButton"><a href="/raking">Ranking</a></button>
-            {% endif %}
+                <button class="optionButton"><a href="/logout">Sair</a></button>
         </div>
     </div>
 

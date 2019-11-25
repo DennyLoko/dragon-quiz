@@ -92,14 +92,15 @@ $containerBuilder->addDefinitions([
 $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
+
     $r->get('/', menu::class);
     $r->get('/ranking', Ranking::class);
 
     $r->get('/admin', Admin::class);
     $r->post('/admin', Admin::class);
 
-    $r->get('/jogo', [QuestionsAnswers::class, 'index']);
-    $r->post('/jogo', [QuestionsAnswers::class, 'updatePoints']);
+    $r->get('/game', [QuestionsAnswers::class, 'index']);
+    $r->post('/game', [QuestionsAnswers::class, 'updatePoints']);
 
     $r->get('/register', UserController::class);
     $r->post('/register', UserController::class);
