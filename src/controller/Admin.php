@@ -21,7 +21,7 @@ class Admin extends Controller
 
     public function __invoke(): ResponseInterface
     {
-        if (count ($_POST)>=0){
+        if (count ($_POST) > 0){
             $question=new Question();
             $question->setQuestion($_POST["question"]);
             $question->setPoints($_POST["points"]);

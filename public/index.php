@@ -25,6 +25,8 @@ if (PHP_OS != "Linux") {
     $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], (strlen('/dragon-quiz/public')));
 }
 
+session_start();
+
 require_once dirname(__DIR__) . '/bootstrap.php';
 
 $containerBuilder = new ContainerBuilder();
@@ -76,8 +78,6 @@ $containerBuilder->addDefinitions([
 $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
-
-
     $r->get('/admin', Admin::class);
     $r->post('/admin', Admin::class);
 

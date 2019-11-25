@@ -4,7 +4,9 @@ namespace DragonQuiz\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\ResultSetMapping;
+use DragonQuiz\Entity\User;
 use http\Env\Response;
+use PhpParser\Node\Stmt\Return_;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment;
 use Zend\Diactoros\Response\RedirectResponse;
@@ -18,8 +20,6 @@ class QuestionsAnswers extends Controller
     private $em;
     private $question;
     private $answers;
-    private $points;
-    private $user;
 
 
     public function __construct(ResponseInterface $response, Environment $twig, EntityManager $em)
@@ -32,6 +32,10 @@ class QuestionsAnswers extends Controller
 
     public function index()
     {
+        if (isset($_SESSION['question_count']) && $_SESSION['question_count'] == 5) {
+            return new RedirectResponse('admin');
+        }
+
         $count = $this->em->getRepository(Question::class)->count([]);
         $random = mt_rand(1, $count);
         $question = $this->em->getRepository(Question::class)->findOneBy(['id' => $random]);
@@ -47,63 +51,36 @@ class QuestionsAnswers extends Controller
         return $response;
     }
 
-    public function updatePoints()
+    public function updatePoints(): RedirectResponse
     {
-        // é o ID da questao
-        $question = $_POST['question'];
-
-        //usuario
-        $conn = $this->em->getConnection();
-        $sql = "SELECT id FROM user WHERE id = 1";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $this->user = $stmt->fetch();
-
-        //pontos
-        $conn = $this->em->getConnection();
-        $sql = "SELECT * FROM points WHERE user_id = 1";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $this->points = $stmt->fetchAll();
-
-
-        foreach ( $this->answers as $answer) {
-            if ($_POST['answer'] == $answer['id']) {
-                if ($answer['is_correct'] === 0) {
-                    return 'Errou';
-                }
-
-                foreach ($this->points as $point) {
-                    if ($point['user_id'] == $this->user['id']) {
-                        if ($this->question['id'] == $question) {
-                            $question = $this->question;
-
-                            $this->points['points'] += $question['points'];
-
-                            $response = new RedirectResponse('jogo');
-
-                            return $response;
-                        }
-                    }
-                }
-            }
+        if (!isset($_SESSION['question_count'])) {
+            $_SESSION['question_count'] = 0;
         }
 
+        $_SESSION['question_count']++;
 
+        $answerId = $_POST['answer'];
 
+        $user = $this->em
+            ->getRepository(User::class)
+            ->findOneBy(['email' => $_COOKIE['dbz_user_email']]);
 
-        //$inputAnswer = $_POST['answer'];
-        //$inputQuestion = $_POST['question'];
-        //pegar resposta, ´nesse input pegou o ID da resposta´
-        //resposta é igual a resposta correta da pergunta
+        $answer = $this->em
+            ->getRepository(Answer::class)
+            ->findOneBy(['id' => $answerId]);
 
-        //$result = select is_correct from answers where id = $inputAnswer;
-        // if ($result != 1) {
-        //  return index;
-        // }
-        //$points = select points from questions where id = $inputQuestion;
-        //Tenho que pegar o usuario logado naquele momento
-        //update points set points += $points where user_id = $usuarioLogado;
-        //return index;
+        if (!$answer->getIsCorrect()) {
+            return new RedirectResponse('jogo');
+        }
+
+        $points = $answer->getQuestion()->getPoints();
+
+        $user->getLastScore()->incrementScore($points);
+
+        $this->em->persist($user);
+        $this->em->flush();
+        $this->em->clear();
+
+        return new RedirectResponse('jogo');
     }
 }
