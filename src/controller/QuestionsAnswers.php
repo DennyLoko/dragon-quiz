@@ -12,7 +12,7 @@ class QuestionsAnswers extends Controller
 {
     public function index(): ResponseInterface {
         if (isset($_SESSION['question_count']) && $_SESSION['question_count'] == 5) {
-            return new RedirectResponse('admin');
+            return new RedirectResponse('ranking');
         }
 
         $count = $this->em->getRepository(Question::class)->count([]);
