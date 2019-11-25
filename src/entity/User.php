@@ -14,25 +14,25 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     /**
-   * @ORM\Id
-   * @ORM\GeneratedValue
-   * @ORM\Column(name="id")
-   */
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     */
     protected $id;
 
     /**
-   * @ORM\Column(name="username")
-   */
+     * @ORM\Column(name="username", unique=true)
+     */
     protected $username;
 
     /**
-   * @ORM\Column(name="email")
-   */
+     * @ORM\Column(name="email", unique=true)
+     */
     protected $email;
 
     /**
-   * @ORM\Column(name="pass")
-   */
+     * @ORM\Column(name="pass")
+     */
     protected $pass;
 
     /**
@@ -45,86 +45,66 @@ class User
     }
 
     // Returns ID of this User.
-
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     // Sets ID of this User.
-
-    public function setId($id)
-    {
+    public function setId($id) {
         $this->id = $id;
     }
 
     // Returns username.
-
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->username;
     }
 
     // Sets username.
-
-    public function setUsername($username)
-    {
+    public function setUsername($username) {
         $this->username = $username;
     }
 
     // Returns email of this User.
-
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
     // Sets ID of this User.
-
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
     }
 
     // Returns username.
-
-    public function getPass()
-    {
+    public function getPass() {
         return $this->pass;
     }
 
     // Sets username.
-
-    public function setPass($pass)
-    {
+    public function setPass($pass) {
         $this->pass = $pass;
     }
 
     /**
      * @return Collection
      */
-    public function getScores(): Collection
-    {
+    public function getScores(): Collection {
         return $this->scores;
     }
 
     /**
      * @param Collection $scores
      */
-    public function setScores(Collection $scores)
-    {
+    public function setScores(Collection $scores) {
         $this->scores = $scores;
     }
 
-    public function addScore (int $points)
-    {
+    public function addScore(int $points) {
         $score = new Score();
         $score->setPoints($points);
         $this->scores->add($score);
     }
 
-    public function getLastScore ()
-    {
+    public function getLastScore() {
         return $this->scores->last();
     }
 }

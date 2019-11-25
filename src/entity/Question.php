@@ -1,4 +1,5 @@
 <?php
+
 namespace DragonQuiz\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,8 +18,9 @@ class Question
      * @ORM\GeneratedValue
      */
     protected $id;
+
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      */
     protected $question;
 
@@ -35,36 +37,46 @@ class Question
     public function __construct() {
         $this->answers = new ArrayCollection();
     }
-    public function getId()
-    {
+
+    /**
+     * @return int
+     */
+    public function getId() {
         return $this->id;
     }
-    public function setId($id)
-    {
+
+    /**
+     * @param int $id
+     */
+    public function setId($id) {
         $this->id = $id;
     }
+
     /**
-     * @return mixed
+     * @return string
      */
     public function getQuestion() {
         return $this->question;
     }
+
     /**
-     * @param mixed $question
+     * @param string $question
      */
     public function setQuestion($question) {
         $this->question = $question;
     }
+
     /**
-     * @return mixed
+     * @return int
      */
     public function getPoints() {
         return $this->points;
     }
+
     /**
-     * @param mixed $points
+     * @param int $points
      */
-    public function setPoints($points) {
+    public function setPoints(int $points) {
         $this->points = $points;
     }
 
@@ -82,8 +94,8 @@ class Question
         $this->answers = $answers;
     }
 
-    public function addAnswer (string $_answer, int $isCorrect){
-        $answer=new Answer();
+    public function addAnswer(string $_answer, int $isCorrect) {
+        $answer = new Answer();
         $answer->setAnswer($_answer);
         $answer->setIsCorrect($isCorrect);
         $answer->setQuestion($this);
