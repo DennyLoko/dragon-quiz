@@ -3,6 +3,9 @@
 
 .back{
     background-color:#F4F4F4;
+	background-image: url(back1.png);
+	background-size: 1366px 768px;
+	background-attachment: fixed;
 }
 .center{
     margin: 0;
@@ -31,3 +34,4 @@ input{
 	margin-bottom: 10px;
 	border-radius:3px;
 }
+
