@@ -5,7 +5,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use DI\ContainerBuilder;
-use DragonQuiz\Controller\menu;
+use DragonQuiz\Controller\Menu;
 use DragonQuiz\Controller\Admin;
 use DragonQuiz\Controller\Ranking;
 use DragonQuiz\Controller\QuestionsAnswers;
@@ -62,7 +62,7 @@ $containerBuilder->addDefinitions([
             get('Twig'),
             get('EntityManager')
         ),
-    menu::class => create(menu::class)
+    Menu::class => create(Menu::class)
         ->constructor(
             get('Response'),
             get('Twig'),
@@ -95,8 +95,7 @@ $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(
     function (RouteCollector $r) {
-
-        $r->get('/', menu::class);
+        $r->get('/', Menu::class);
         $r->get('/ranking', Ranking::class);
 
         $r->get('/admin', [Admin::class, 'form']);
