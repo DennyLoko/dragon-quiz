@@ -3,28 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Perguntas e Respostas</title>
+	<link rel='stylesheet' href='estilo.css' />
 </head>
-<body>
-    <div class="container-fluid">
+<body class='back'>
+<img src='dbq.png' width='350px' ></img>
+
+<div class='center'>
+
+<table width='500px'><tr><td>
         <form method="POST" action="">
             <label>
                 <h1>{{ question.getQuestion() }}</h1>
             </label>
 
             <br>
-
+			<table>
             {% for answer in answers %}
-                <input type="radio" id="answer" name="answer" value="{{ answer.getId() }}">
-
-                <label for="answer">
+			<tr height='40px'><td width='40px'>
+				<input type="radio" id="answer" name="answer" value="{{ answer.getId() }}">
+			</td><td>
+                <label for="answer" id='t-answer'>
                     {{ answer.getAnswer() }}
                 </label>
-
-                <br>
+			</td></tr>
             {% endfor %}
-
+			<table>
             <input class="btn btn-success" type="submit">
         </form>
+</td></tr></table>
     </div>
 </body>
 </html>

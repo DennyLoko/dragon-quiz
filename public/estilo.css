@@ -25,8 +25,11 @@
 label{
 	font-family: 'Calibri';
     color:black;
+	
 }
-input{
+
+
+.register{
 	width: 100%;
 	border-color: black;
 	height: 30px;

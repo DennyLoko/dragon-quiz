@@ -10,27 +10,7 @@ use Twig\Environment;
 
 class UserController extends Controller
 {
-	function firstscore($name){
-		
-		//$user = $this->em->getRepository(User::class)->findOneBy(['email' => $name]);
-		
-		
-        try {
-		$conn = $this->em->getConnection();
-
-            $sql = "INSERT INTO scores (user_id, points) VALUES(".$name->getId().", 0);";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-
-           
-			 } catch (\Exception $erro) {
-			 echo $erro->getMessage();	
-			 exit;}
-		
-
-         
-	}
-    function register($name, $email, $password, $cpassword) {
+	function register($name, $email, $password, $cpassword) {
         if ($password == $cpassword) {
             $u = new User();
             $u->setUsername($name);
@@ -40,8 +20,7 @@ class UserController extends Controller
                 $this->em->persist($u);
                 $this->em->flush();
                 $this->em->clear();
-				$this->firstscore($u);
-                //cookies
+				//cookies
                 echo "<script>alert('Cadastrado com Sucesso')</script>";
                 setcookie("dbz_user_email", $u->getEmail());
                 setcookie("dbz_user_token", md5($u->getUsername().$u->getPass()));
