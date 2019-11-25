@@ -1,37 +1,83 @@
 @charset 'utf-8';
+.back {
+    background-color: #F4F4F4;
+}
 
+html{
+    overflow-y: hidden;
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    background: linear-gradient(
+          0deg, 
+          rgba(184, 184, 184, 0.90), 
+          rgba(184, 184, 184, 0.90)
+        ),
+        url(img/tenor.gif)
+        no-repeat;
+    background-size: 100%;
+}
 
 .back{
-    background-color:#F4F4F4;
+  background-color:#F4F4F4;
 	background-image: url(back1.png);
 	background-size: 1366px 768px;
 	background-attachment: fixed;
 }
-.center{
+
+.center {
     margin: 0;
     position: absolute;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     left: 50%;
-    top:50%;
+    top: 50%;
     padding: 20px;
     background-color: white;
     max-width: 500px;
-	border-radius: 3px; 
+    border-radius: 3px;
 }
 
-.center h1{
+.Menu{
+    margin-left: 42%;
+    height: 100vh;
+    text-align: center;
+    width: 160px;
+}
+
+.optionButton, a{
+    background-color: orange;
+    color: black;
+}
+
+.MenuTitle {
+    padding-top: 140%;
+}
+
+.options{
+    background-color: #F4F4F4;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.center h1 {
     font-family: 'Arial';
 }
-label{
-	font-family: 'Calibri';
-    color:black;
-}
-input{
-	width: 100%;
-	border-color: black;
-	height: 30px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	border-radius:3px;
+
+label {
+    font-family: 'Calibri';
+    color: black;
 }
 
+input {
+    width: 100%;
+    border-color: black;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+}
