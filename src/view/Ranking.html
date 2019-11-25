@@ -1,0 +1,36 @@
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+</style>
+
+
+<table>
+
+  <tr>
+    <th>User</th>
+    <th>Score</th>
+  </tr>
+
+
+  {% for rank in ranking %}
+    <tr>
+      <td> {{ rank.getUser().getUsername() }} </td>
+      <td> {{ rank.getPoints() }} </td>
+    </tr>
+  {% endfor %}
+
+</table>
+
+
+
+
+
+

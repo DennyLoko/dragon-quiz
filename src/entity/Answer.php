@@ -1,6 +1,9 @@
 <?php
+
 namespace DragonQuiz\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="answers")

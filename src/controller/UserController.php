@@ -31,18 +31,20 @@ class UserController extends Controller
             try {
                 $this
                     ->em
-                        ->persist($u);
+                    ->persist($u);
 
                 $this
                     ->em
-                        ->flush();
+                    ->flush();
 
                 $this
                     ->em
-                        ->clear();
-
+                    ->clear();
+                //cookies
                 echo "<script>alert('Cadastrado com Sucesso')</script>";
-
+                setcookie("dbz_user_email", $u->getEmail());
+                setcookie("dbz_user_token", md5($u->getUsername() . $u->getPass()));
+                echo "<meta http-equiv='refresh' content='0; url=/dragon-quiz/public/'>";
             } catch (\Exception $erro) {
                 //echo $erro->getMessage();
                 if ($erro->getErrorCode() == '1062') {
@@ -70,17 +72,47 @@ class UserController extends Controller
         }
     }
 
+    function login($name, $password)
+    {
+        try {
+            $conn = $this
+                ->em
+                ->getConnection();
+
+            $sql = "SELECT * FROM user WHERE username = '" . $name . "' OR email = '" . $name . "'";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+
+            $u = $stmt->fetch();
+
+            if ($u != null) {
+
+                if ($u["pass"] == md5($password)) {
+                    setcookie("dbz_user_email", $u["email"]);
+                    setcookie("dbz_user_token", md5($u["username"] . $u["pass"]));
+                    echo "<meta http-equiv='refresh' content='0; url=/dragon-quiz/public/'>";
+                } else {
+                    echo "<script>alert('Senha incorreta');</script>
+				  <style type='text/css'>#password{border-color:red;}</style>";
+                }
+            } else {
+                echo "<script>alert('Usuário não cadastrado');</script>
+				  <style type='text/css'>#name{border-color:red;}</style>";
+            }
+        } catch (\Exception $erro) {
+            echo $erro;
+        }
+    }
+
     public function __invoke(): ResponseInterface
     {
         $response = $this
             ->response
-                ->withHeader('Content-Type', 'text/html');
+            ->withHeader('Content-Type', 'text/html');
 
         if ($_SERVER['REQUEST_URI'] == '/register') {
             $name = '';
             $email = '';
-            $password = '';
-            $cpassword = '';
 
             if (count($_POST) > 0) {
 
@@ -95,13 +127,22 @@ class UserController extends Controller
             $response->getBody()
                 ->write($this
                     ->twig
-                        ->render('register.html', ['name' => $name, 'password' => $password, 'cpassword' => $cpassword, 'email' => $email]));
+                    ->render('register.html', ['name' => $name, 'email' => $email]));
         } else {
+            $name = '';
+
+            if (count($_POST) > 0) {
+
+                $name = $_POST['name'];
+                $password = $_POST['password'];
+
+                $this->login($name, $password);
+            }
 
             $response->getBody()
                 ->write($this
                     ->twig
-                        ->render('login.html', ['name' => 'Danniel']));
+                    ->render('login.html', ['name' => $name]));
         }
 
         return $response;
