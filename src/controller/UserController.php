@@ -41,8 +41,8 @@ class UserController extends Controller
                     ->clear();
 				//cookies
                 echo "<script>alert('Cadastrado com Sucesso')</script>";
-				setcookie("dbz-user-email",$u->getEmail());
-				setcookie("dbz-user-token",md5($u->getUsername().$u->getPass()));
+				setcookie("dbz_user_email",$u->getEmail());
+				setcookie("dbz_user_token",md5($u->getUsername().$u->getPass()));
 				echo "<meta http-equiv='refresh' content='0; url=/dragon-quiz/public/'>";
             }
             catch(\Exception $erro)
@@ -97,8 +97,8 @@ class UserController extends Controller
 			if($u != null){
 				
 				if($u["pass"] == md5($password)){
-				setcookie("dbz-user-email",$u["email"]);
-				setcookie("dbz-user-token",md5($u["username"].$u["pass"]));
+				setcookie("dbz_user_email",$u["email"]);
+				setcookie("dbz_user_token",md5($u["username"].$u["pass"]));
 				echo "<meta http-equiv='refresh' content='0; url=/dragon-quiz/public/'>";
 			}else{
 				echo "<script>alert('Senha incorreta');</script>
@@ -128,8 +128,6 @@ class UserController extends Controller
             {
                 $name = '';
                 $email = '';
-                $password = '';
-                $cpassword = '';
 
                 if (count($_POST) > 0)
                 {
@@ -146,14 +144,13 @@ class UserController extends Controller
                 $response->getBody()
                     ->write($this
                     ->twig
-                    ->render('register.html', ['name' => $name, 'password' => $password, 'cpassword' => $cpassword, 'email' => $email]));
+                    ->render('register.html', ['name' => $name, 'email' => $email]));
 
             }
             else
             {
 				$name = '';
-                $password = '';
-                
+                                
                 if (count($_POST) > 0)
                 {
 
@@ -167,7 +164,7 @@ class UserController extends Controller
                 $response->getBody()
                     ->write($this
                     ->twig
-                    ->render('login.html', ['name' => $name, 'password' => $password]));
+                    ->render('login.html', ['name' => $name]));
 
             }
 
