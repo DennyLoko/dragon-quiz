@@ -15,15 +15,17 @@ td, th {
 <table>
 
   <tr>
+    <th>Position</th>
     <th>User</th>
     <th>Score</th>
   </tr>
 
 
-  {% for rank in ranking %}
+  {% for i in 0..49 %}
     <tr>
-      <td> {{ rank.getUser().getUsername() }} </td>
-      <td> {{ rank.getPoints() }} </td>
+      <td> {{ i + 1 }}</td>
+      <td> {{ ranking[i].getUser().getUsername() }} </td>
+      <td> {{ ranking[i].getPoints() }} </td>
     </tr>
   {% endfor %}
 

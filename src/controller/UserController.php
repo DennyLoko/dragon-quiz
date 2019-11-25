@@ -9,20 +9,7 @@ use Twig\Environment;
 
 class UserController extends Controller
 {
-    private $response;
-
-    private $twig;
-
-    private $em;
-
-    public function __construct(ResponseInterface $response, Environment $twig, EntityManager $em) {
-        $this->response = $response;
-        $this->twig = $twig;
-        $this->em = $em;
-    }
-
     function register($name, $email, $password, $cpassword) {
-
         if ($password == $cpassword) {
             $u = new User();
             $u->setUsername($name);
@@ -133,5 +120,3 @@ class UserController extends Controller
         return $response;
     }
 }
-
-?>

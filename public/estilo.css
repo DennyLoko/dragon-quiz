@@ -13,14 +13,20 @@ a{
 
 body{
     background: linear-gradient(
-        0deg, 
-        rgba(184, 184, 184, 0.90), 
-        rgba(184, 184, 184, 0.90)), 
+          0deg, 
+          rgba(184, 184, 184, 0.90), 
+          rgba(184, 184, 184, 0.90)
+        ),
         url(img/tenor.gif)
         no-repeat;
-    ;
     background-size: 100%;
-    
+}
+
+.back{
+  background-color:#F4F4F4;
+	background-image: url(back1.png);
+	background-size: 1366px 768px;
+	background-attachment: fixed;
 }
 
 .center {
