@@ -10,6 +10,7 @@ use DragonQuiz\Controller\Admin;
 use DragonQuiz\Controller\Ranking;
 use DragonQuiz\Controller\QuestionsAnswers;
 use DragonQuiz\Controller\UserController;
+use DragonQuiz\controller\Logout;
 use FastRoute\RouteCollector;
 use Middlewares\FastRoute;
 use DragonQuiz\Middleware\Auth;
@@ -43,7 +44,6 @@ $containerBuilder->addDefinitions([
             get('Twig'),
             get('EntityManager')
         ),
-
     Ranking::class => create(Ranking::class)
         ->constructor(
             get('Response'),
@@ -69,6 +69,12 @@ $containerBuilder->addDefinitions([
             get('EntityManager')
         ),
     UserController::class => create(UserController::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
+    Logout::class => create(Logout::class)
         ->constructor(
             get('Response'),
             get('Twig'),
@@ -109,7 +115,8 @@ $routes = simpleDispatcher(
 
         $r->get('/login', UserController::class);
         $r->post('/login', UserController::class);
-		
+
+        $r->get('/logout', [Logout::class, 'doLogout']);
     }
 );
 
