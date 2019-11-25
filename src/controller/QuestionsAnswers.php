@@ -16,19 +16,17 @@ class QuestionsAnswers extends Controller
         }
 
         $count = $this->em->getRepository(Question::class)->count([]);
-        $random = mt_rand(1, $count);
-        $question = $this->em->getRepository(Question::class)->findOneBy(['id' => $random]);
 
-        $response = $this->response->withHeader('Content-Type', 'text/html');
-        $response->getBody()->write(
+        if ($count == 0) {
+            return $this->responseHTML(
                 $this->twig->render(
-                    'questions_answers.html',
-                    [
-                        'question' => $question,
-                        'answers' => $question->getAnswers(),
-                    ]
+                    'no_questions.html'
                 )
             );
+        }
+
+        $random = mt_rand(1, $count);
+        $question = $this->em->getRepository(Question::class)->findOneBy(['id' => $random]);
 
         return $this->responseHTML(
             $this->twig->render(
