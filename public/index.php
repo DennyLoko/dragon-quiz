@@ -4,23 +4,23 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use DI\ContainerBuilder;
-use function DI\create;
-use function DI\get;
 use DragonQuiz\Controller\Admin;
 use DragonQuiz\Controller\HelloWorld;
-use DragonQuiz\Controller\Ranking;
 use DragonQuiz\Controller\QuestionsAnswers;
+use DragonQuiz\Controller\Ranking;
 use DragonQuiz\Controller\UserController;
 use FastRoute\RouteCollector;
-use function FastRoute\simpleDispatcher;
 use Middlewares\FastRoute;
 use Middlewares\RequestHandler;
 use Narrowspark\HttpEmitter\SapiEmitter;
 use Relay\Relay;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
+use Zend\Diactoros\ServerRequestFactory;
+use function DI\create;
+use function DI\get;
+use function FastRoute\simpleDispatcher;
 
 if (PHP_OS != "Linux") {
     $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], (strlen('/dragon-quiz/public')));
