@@ -13,19 +13,19 @@ use DragonQuiz\Entity\Answer;
 class QuestionsAnswers extends Controller
 {
     private $response;
+
     private $twig;
+
     private $em;
 
 
-    public function __construct(ResponseInterface $response, Environment $twig, EntityManager $em)
-    {
+    public function __construct(ResponseInterface $response, Environment $twig, EntityManager $em) {
         $this->response = $response;
         $this->twig = $twig;
         $this->em = $em;
     }
 
-    public function index(): ResponseInterface
-    {
+    public function index(): ResponseInterface {
         if (isset($_SESSION['question_count']) && $_SESSION['question_count'] == 5) {
             return new RedirectResponse('admin');
         }
@@ -35,18 +35,20 @@ class QuestionsAnswers extends Controller
         $question = $this->em->getRepository(Question::class)->findOneBy(['id' => $random]);
 
         $response = $this->response->withHeader('Content-Type', 'text/html');
-        $response
-            ->getBody()
-            ->write($this->twig->render('questions_answers.html', [
-                'question' => $question,
-                'answers' => $question->getAnswers(),
-            ]));
+        $response->getBody()->write(
+                $this->twig->render(
+                    'questions_answers.html',
+                    [
+                        'question' => $question,
+                        'answers' => $question->getAnswers(),
+                    ]
+                )
+            );
 
         return $response;
     }
 
-    public function updatePoints(): ResponseInterface
-    {
+    public function updatePoints(): ResponseInterface {
         if (!isset($_SESSION['question_count'])) {
             $_SESSION['question_count'] = 0;
         }
