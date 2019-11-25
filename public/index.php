@@ -8,6 +8,7 @@ use function DI\create;
 use function DI\get;
 use DragonQuiz\Controller\Admin;
 use DragonQuiz\Controller\HelloWorld;
+use DragonQuiz\Controller\Ranking;
 use DragonQuiz\Controller\QuestionsAnswers;
 use DragonQuiz\Controller\UserController;
 use FastRoute\RouteCollector;
@@ -34,6 +35,12 @@ $containerBuilder->useAutowiring(false);
 $containerBuilder->useAnnotations(false);
 
 $containerBuilder->addDefinitions([
+    Ranking::class => create(Ranking::class)
+        ->constructor(
+            get('Response'), 
+            get('Twig'), 
+            get('EntityManager')
+        ),
     Admin::class => create(Admin::class)
         ->constructor(
             get('Response'),
@@ -78,13 +85,14 @@ $containerBuilder->addDefinitions([
 $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
+    $r->get('/', HelloWorld::class);
+    $r->get('/ranking', Ranking::class);
+
     $r->get('/admin', Admin::class);
     $r->post('/admin', Admin::class);
 
     $r->get('/jogo', [QuestionsAnswers::class, 'index']);
     $r->post('/jogo', [QuestionsAnswers::class, 'updatePoints']);
-
-    $r->get('/', HelloWorld::class);
 
     $r->get('/register', UserController::class);
     $r->post('/register', UserController::class);
