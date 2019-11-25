@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__).'/vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use DI\ContainerBuilder;
+use DragonQuiz\Controller\menu;
 use DragonQuiz\Controller\Admin;
-use DragonQuiz\Controller\HelloWorld;
-use DragonQuiz\Controller\QuestionsAnswers;
 use DragonQuiz\Controller\Ranking;
+use DragonQuiz\Controller\QuestionsAnswers;
 use DragonQuiz\Controller\UserController;
 use FastRoute\RouteCollector;
 use Middlewares\FastRoute;
+use DragonQuiz\Middleware\Auth;
 use Middlewares\RequestHandler;
 use Narrowspark\HttpEmitter\SapiEmitter;
 use Relay\Relay;
@@ -29,64 +30,73 @@ if (PHP_OS != "Linux") {
 
 session_start();
 
-require_once dirname(__DIR__).'/bootstrap.php';
+require_once dirname(__DIR__) . '/bootstrap.php';
 
 $containerBuilder = new ContainerBuilder();
 $containerBuilder->useAutowiring(false);
 $containerBuilder->useAnnotations(false);
 
-$containerBuilder->addDefinitions(
-    [
-        Ranking::class => create(Ranking::class)->constructor(
-                get('Response'),
-                get('Twig'),
-                get('EntityManager')
-            ),
-        Admin::class => create(Admin::class)->constructor(
-                get('Response'),
-                get('Twig'),
-                get('EntityManager')
-            ),
-        QuestionsAnswers::class => create(QuestionsAnswers::class)->constructor(
-                get('Response'),
-                get('Twig'),
-                get('EntityManager')
-            ),
-        HelloWorld::class => create(HelloWorld::class)->constructor(
-                get('Response'),
-                get('Twig'),
-                get('EntityManager')
-            ),
-        UserController::class => create(UserController::class)->constructor(
-                get('Response'),
-                get('Twig'),
-                get('EntityManager')
-            ),
-        'Response' => function () {
-            return new Response();
-        },
-        'Twig' => function () {
-            $loader = new FilesystemLoader(dirname(__DIR__).'/src/view/');
+$containerBuilder->addDefinitions([
+    Auth::class => create(Auth::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
 
-            $twig = new Environment(
-                $loader, [
-                'cache' => dirname(__DIR__).'/src/view/cache/',
-            ]
-            );
+    Ranking::class => create(Ranking::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
+    Admin::class => create(Admin::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
+    QuestionsAnswers::class => create(QuestionsAnswers::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
+    menu::class => create(menu::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
+    UserController::class => create(UserController::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
+    'Response' => function () {
+        return new Response();
+    },
+    'Twig' => function () {
+        $loader = new FilesystemLoader(dirname(__DIR__) . '/src/view/');
 
-            return $twig;
-        },
-        'EntityManager' => function () use ($entityManager) {
-            return $entityManager;
-        },
-    ]
-);
+        $twig = new Environment($loader, [
+            'cache' => dirname(__DIR__) . '/src/view/cache/',
+        ]);
+
+        return $twig;
+    },
+    'EntityManager' => function () use ($entityManager) {
+        return $entityManager;
+    }
+]);
 
 $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(
     function (RouteCollector $r) {
-        $r->get('/', HelloWorld::class);
+
+        $r->get('/', menu::class);
         $r->get('/ranking', Ranking::class);
 
         $r->get('/admin', [Admin::class, 'form']);
@@ -104,6 +114,7 @@ $routes = simpleDispatcher(
 );
 
 $middlewareQueue[] = new FastRoute($routes);
+$middlewareQueue[] = $container->get(Auth::class);
 $middlewareQueue[] = new RequestHandler($container);
 
 $requestHandler = new Relay($middlewareQueue);

@@ -18,6 +18,19 @@ CREATE SCHEMA IF NOT EXISTS `dbz` ;
 USE `dbz` ;
 
 -- -----------------------------------------------------
+-- Table `dbz`.`questions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbz`.`questions` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `question` VARCHAR(256) NOT NULL,
+  `points` TINYINT NOT NULL DEFAULT 10,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `question_UNIQUE` (`question` ASC));
+
+
+-- -----------------------------------------------------
 -- Table `dbz`.`answers`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dbz`.`answers` (
@@ -36,36 +49,6 @@ CREATE TABLE IF NOT EXISTS `dbz`.`answers` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-
--- -----------------------------------------------------
--- Table `dbz`.`points`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dbz`.`points` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `points` INT NOT NULL,
-  `user_id` INT NOT NULL,
-  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  INDEX `fk_points_user1_idx` (`user_id` ASC),
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_points_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `dbz`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-
-
--- -----------------------------------------------------
--- Table `dbz`.`questions`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dbz`.`questions` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `question` VARCHAR(256) NOT NULL,
-  `points` TINYINT NOT NULL DEFAULT 10,
-  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `question_UNIQUE` (`question` ASC));
 
 
 -- -----------------------------------------------------
@@ -101,6 +84,23 @@ CREATE TABLE IF NOT EXISTS `dbz`.`user_answers` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_answers_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `dbz`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+-- -----------------------------------------------------
+-- Table `dbz`.`points`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dbz`.`points` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `points` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  INDEX `fk_points_user1_idx` (`user_id` ASC),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_points_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `dbz`.`user` (`id`)
     ON DELETE NO ACTION
