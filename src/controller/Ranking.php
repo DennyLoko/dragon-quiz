@@ -2,36 +2,19 @@
 
 namespace DragonQuiz\Controller;
 
-use Doctrine\ORM\EntityManager;
 use DragonQuiz\Entity\Score;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
-use Twig\Environment;
 
 class Ranking extends Controller
 {
-  private $response;
-  private $twig;
-  private $em;
+    public function __invoke(): ResponseInterface {
+        try {
+            $points = $this->em->getRepository(Score::class)->findBy([], ['points' => 'Desc']);
+        } catch (Exception $ex) {
+            $points = "Error: ".$ex;
+        }
 
-  public function __construct(ResponseInterface $response, Environment $twig, EntityManager $em)
-  {
-    $this->response = $response;
-    $this->twig = $twig;
-    $this->em = $em;
-  }
-
-  public function __invoke(): ResponseInterface
-  {
-    try {
-      $points = $this->em->getRepository(Score::class)->findBy(array(), array('points' => 'Desc'));
-    } catch (Exception $ex) {
-      $points = "Error: " . $ex;
+        return $this->responseHTML($this->twig->render('Ranking.html', ['ranking' => $points]));
     }
-
-    $response = $this->response->withHeader('Content-Type', 'text/html');
-    $response->getBody()->write($this->twig->render('Ranking.html', ['ranking' => $points]));
-
-    return $response;
-  }
 }
