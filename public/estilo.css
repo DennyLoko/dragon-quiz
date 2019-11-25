@@ -28,6 +28,16 @@ body{
 	background-size: 1366px 768px;
 	background-attachment: fixed;
 }
+.register{
+	
+	width: 100%;
+	border-color: black;
+	height: 30px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-radius:3px;
+	
+}
 
 .center {
     margin: 0;

@@ -42,6 +42,19 @@ class QuestionsAnswers extends Controller
     public function updatePoints(): ResponseInterface {
         if (!isset($_SESSION['question_count'])) {
             $_SESSION['question_count'] = 0;
+			//nova lina na tabela score
+			$user = $this->em->getRepository(User::class)->findOneBy(['email' => $_COOKIE['dbz_user_email']]);
+			$conn = $this->em->getConnection();
+
+            $sql = "INSERT INTO scores (user_id, points) VALUES(".$user->getId().", 0);";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+
+           
+			 } catch (\Exception $erro) {
+			 echo $erro->getMessage();	
+			 exit;
+			 }
         }
 
         $_SESSION['question_count']++;
