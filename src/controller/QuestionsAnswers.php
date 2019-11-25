@@ -12,7 +12,7 @@ use Zend\Diactoros\Response\RedirectResponse;
 class QuestionsAnswers extends Controller
 {
     public function index(): ResponseInterface {
-        if (isset($_SESSION['question_count']) && $_SESSION['question_count'] == 5) {
+        if (isset($_SESSION['question_count']) && $_SESSION['question_count'] >= 5) {
             return new RedirectResponse('ranking');
         }
 
