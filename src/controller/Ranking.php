@@ -3,7 +3,7 @@
 namespace DragonQuiz\Controller;
 
 use Doctrine\ORM\EntityManager;
-use DragonQuiz\Entity\Point;
+use DragonQuiz\Entity\Score;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment;
@@ -24,7 +24,7 @@ class Ranking extends Controller
   public function __invoke(): ResponseInterface
   {
     try {
-      $points = $this->em->getRepository(Point::class)->findBy(array(), array('points' => 'Desc'));
+      $points = $this->em->getRepository(Score::class)->findBy(array(), array('points' => 'Desc'));
     } catch (Exception $ex) {
       $points = "Error: " . $ex;
     }
