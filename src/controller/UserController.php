@@ -91,7 +91,7 @@ class UserController extends Controller
             }
 
             $response->getBody()->write(
-                $this->twig->render('register.html', ['name' => $name, 'email' => $email])
+                $this->twig->render('Register.html', ['name' => $name, 'email' => $email])
             );
         } else {
             $name = '';
