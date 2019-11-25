@@ -52,15 +52,20 @@ body{
 }
 
 .Menu{
-    margin-left: 42%;
+    margin-left: 35%;
+	margin-right: 50%;
     height: 100vh;
     text-align: center;
-    width: 160px;
+    width: 350px;
 }
 
 .optionButton, a{
     background-color: orange;
     color: black;
+	width: 100%;
+	height: 30px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 .b-answer{
 	width: 100%;

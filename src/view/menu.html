@@ -13,8 +13,10 @@
 
     <div class="Menu">
         <div class="row MenuTitle">
-            <h2 style="margin: 0; padding: 0;">DragonQuiz</h2>
-            <h5 style="margin: 0; padding: 0;">Um quiz de DragonBall</h5>
+            <img src='dbq.png' style="margin: 0; padding: 0;" width='350px' align='center'></img>
+            <h5 style="margin: 0; padding: 0;" align="center">Um quiz de DragonBall</h5>
+			<p></p>
+			<h1 align='center' style='margin-top: 30%;'>Bem-Vindo {{name}}!</h1>
         </div>
 
 
@@ -25,7 +27,7 @@
             {% if isAdmin == true %}
                 <button class="optionButton"><a href="/admin">Adicionar pergunta</a></button>
             {% endif %}
-                <button class="optionButton"><a href="/logout">Sair</a></button>
+                <button class="optionButton" style=' margin-bottom:50%;'><a href="/logout">Sair</a></button>
         </div>
     </div>
 
