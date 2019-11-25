@@ -89,8 +89,8 @@ $routes = simpleDispatcher(
         $r->get('/', HelloWorld::class);
         $r->get('/ranking', Ranking::class);
 
-        $r->get('/admin', Admin::class);
-        $r->post('/admin', Admin::class);
+        $r->get('/admin', [Admin::class, 'form']);
+        $r->post('/admin', [Admin::class, 'save']);
 
         $r->get('/game', [QuestionsAnswers::class, 'index']);
         $r->post('/game', [QuestionsAnswers::class, 'updatePoints']);
