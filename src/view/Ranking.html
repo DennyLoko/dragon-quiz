@@ -10,8 +10,15 @@ td, th {
   padding: 8px;
 }
 </style>
+<link rel='stylesheet' href='estilo.css' />
+<body class='back'>
+<div class='center' >
 
+{% if pontuacao != '' %}
+<h2 align='center' style='font-family: Arial;'>Você conseguiu {{pontuacao}} pontos!</h2>
+{% endif %}
 
+<div style='overflow: auto; max-height: 300px'>
 <table>
 
   <tr>
@@ -30,8 +37,15 @@ td, th {
   {% endfor %}
 
 </table>
-
-
+</div>
+<p></p>
+<div align ='center'>
+	<button style='background-color: orange;'><a href='/game'>Jogar</a></button>
+	<button style='background-color: orange;'><a href='/'>Menu Principal</a></button>
+	<button style='background-color: orange;'><a href='/logout'>Sair</a></button>
+</div>
+</div>
+</body>
 
 
 

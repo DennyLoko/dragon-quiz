@@ -28,6 +28,16 @@ body{
 	background-size: 1366px 768px;
 	background-attachment: fixed;
 }
+.register{
+	
+	width: 100%;
+	border-color: black;
+	height: 30px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-radius:3px;
+	
+}
 
 .center {
     margin: 0;
@@ -42,42 +52,36 @@ body{
 }
 
 .Menu{
-    margin-left: 42%;
+    margin-left: 35%;
+	margin-right: 50%;
     height: 100vh;
     text-align: center;
-    width: 160px;
+    width: 350px;
 }
 
 .optionButton, a{
     background-color: orange;
     color: black;
+	width: 100%;
+	height: 30px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
-
-.MenuTitle {
-    padding-top: 140%;
+.b-answer{
+	width: 100%;
+	border-color: black;
+	height: 30px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-radius:3px;
 }
-
-.options{
-    background-color: #F4F4F4;
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 3px;
+label{
+	font-family: Calibri;
 }
-
-.center h1 {
-    font-family: 'Arial';
+.t-answer{
+	font-size: 20px;
 }
-
-label {
-    font-family: 'Calibri';
-    color: black;
-}
-
-input {
-    width: 100%;
-    border-color: black;
-    height: 30px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 3px;
+#answer{
+	width: 30px;
+	height: 30px;
 }

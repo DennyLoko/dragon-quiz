@@ -25,20 +25,14 @@ class UserController extends Controller
                 setcookie("dbz_user_email", $u->getEmail());
                 setcookie("dbz_user_token", md5($u->getUsername().$u->getPass()));
                 
-                echo "<meta http-equiv='refresh' content='0; url=/dragon-quiz/public/'>";
+                echo "<meta http-equiv='refresh' content='0; url=/'>";
             } catch (\Exception $erro) {
                 //echo $erro->getMessage();
                 if ($erro->getErrorCode() == '1062') {
-
-                    $array = explode('key', $erro->getMessage());
-                    if ($array[1] == " 'username_UNIQUE'") {
-                        echo "<script('Usuario já cadastrado');</script>
-						<style type='text/css'>#name{bordet>alerr-color:red;}</style>";
-                    }
-                    if ($array[1] == " 'email_UNIQUE'") {
-                        echo "<script>alert('Email já cadastrado');</script>
-						<style type='text/css'>#email{border-color:red;}</style>";
-                    }
+					
+					echo "<script>alert('Usuário ou Email já cadastrado');</script>
+					<style type='text/css'>#email, #name{border-color:red;}</style>";
+        			
                 } else {
                     if ($erro->getErrorCode() == '2002') {
                         echo "<script>alert('Falha na conexão');</script>";
@@ -66,7 +60,7 @@ class UserController extends Controller
                 if ($u["pass"] == md5($password)) {
                     setcookie("dbz_user_email", $u["email"]);
                     setcookie("dbz_user_token", md5($u["username"].$u["pass"]));
-                    echo "<meta http-equiv='refresh' content='0; url=/dragon-quiz/public/'>";
+                    echo "<meta http-equiv='refresh' content='0; url=/'>";
                 } else {
                     echo "<script>alert('Senha incorreta');</script>
 				  <style type='text/css'>#password{border-color:red;}</style>";
@@ -120,3 +114,4 @@ class UserController extends Controller
         return $response;
     }
 }
+

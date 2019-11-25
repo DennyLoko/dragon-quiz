@@ -13,19 +13,20 @@
 <form method='POST' action=''>
 	
 	<label for='name'>Nome de Usuário:</label>
-	<input type='text' maxlength='128'id='name' name='name' placeholder='Username' value='{{name}}' required>
+	<input type='text' maxlength='128'id='name' name='name' class='register' placeholder='Username' value='{{name}}' required>
 	
 	<label for='email'>Email:</label>
-	<input type='text' maxlength='128' id='email' name='email' placeholder='Email' value='{{email}}' required>
+	<input type='text' maxlength='128' id='email' class='register' name='email' placeholder='Email' value='{{email}}' required>
 	
 	<label for='password'>Senha:</label>
-	<input type='password' name='password' id='password' placeholder='Senha' required>
+	<input type='password' name='password' id='password' class='register' placeholder='Senha' required>
 	
 	<label for='cpassword'>Confirmar Senha:</label>
-	<input type='password' name='cpassword' id='cpassword' placeholder='Confirmar Senha' required>
-	<table><tr><td width='100%'><td>
-	<button type='submit' id='register'>Confirmar</button>
-	</td></td></tr></table>
+	<input type='password' name='cpassword' id='cpassword' class='register' placeholder='Confirmar Senha' required>
+	
+	<table><tr><td width='100%'><a href='/login' style='background-color: white;'>Já possui uma conta? Clique aqui.</a></td><td>
+	<button type='submit' id='register'>Cadastrar</button>
+	</td></tr></table>
 
 
 </form>

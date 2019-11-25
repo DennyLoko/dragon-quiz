@@ -5,6 +5,7 @@ namespace DragonQuiz\Controller;
 use DragonQuiz\Entity\Answer;
 use DragonQuiz\Entity\Question;
 use DragonQuiz\Entity\User;
+use DragonQuiz\Entity\Score;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\RedirectResponse;
 
@@ -42,6 +43,21 @@ class QuestionsAnswers extends Controller
     public function updatePoints(): ResponseInterface {
         if (!isset($_SESSION['question_count'])) {
             $_SESSION['question_count'] = 0;
+			//nova lina na tabela score
+			$user = $this->em->getRepository(User::class)->findOneBy(['email' => $_COOKIE['dbz_user_email']]);
+			try{	
+			$s = new Score;
+			$s->setPoints(0);
+			$s->setUser($user);
+
+			$this->em->persist($s);
+			$this->em->flush();
+			$this->em->clear();
+			}catch(\Exception $erro) {
+			 echo $erro->getMessage();	
+			 exit;
+			}
+			
         }
 
         $_SESSION['question_count']++;
