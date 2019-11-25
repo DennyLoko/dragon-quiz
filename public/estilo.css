@@ -62,4 +62,21 @@ body{
     background-color: orange;
     color: black;
 }
-
+.b-answer{
+	width: 100%;
+	border-color: black;
+	height: 30px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-radius:3px;
+}
+label{
+	font-family: Calibri;
+}
+.t-answer{
+	font-size: 20px;
+}
+#answer{
+	width: 30px;
+	height: 30px;
+}

@@ -20,15 +20,15 @@
 			<table>
             {% for answer in answers %}
 			<tr height='40px'><td width='40px'>
-				<input type="radio" id="answer" name="answer" value="{{ answer.getId() }}">
+				<input type="radio" width='100%' id="answer" name="answer" value="{{ answer.getId() }}">
 			</td><td>
-                <label for="answer" id='t-answer'>
+                <label for="answer" class='t-answer'>
                     {{ answer.getAnswer() }}
                 </label>
 			</td></tr>
             {% endfor %}
 			<table>
-            <input class="btn btn-success" type="submit">
+            <button class='b-answer' type="submit">Enviar</button>
         </form>
 </td></tr></table>
     </div>
