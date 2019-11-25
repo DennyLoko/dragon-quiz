@@ -25,7 +25,7 @@ class UserController extends Controller
                 setcookie("dbz_user_email", $u->getEmail());
                 setcookie("dbz_user_token", md5($u->getUsername().$u->getPass()));
                 
-                echo "<meta http-equiv='refresh' content='0; url=/dragon-quiz/public/'>";
+                echo "<meta http-equiv='refresh' content='0; url=/'>";
             } catch (\Exception $erro) {
                 //echo $erro->getMessage();
                 if ($erro->getErrorCode() == '1062') {
@@ -60,7 +60,7 @@ class UserController extends Controller
                 if ($u["pass"] == md5($password)) {
                     setcookie("dbz_user_email", $u["email"]);
                     setcookie("dbz_user_token", md5($u["username"].$u["pass"]));
-                    echo "<meta http-equiv='refresh' content='0; url=/dragon-quiz/public/'>";
+                    echo "<meta http-equiv='refresh' content='0; url=/'>";
                 } else {
                     echo "<script>alert('Senha incorreta');</script>
 				  <style type='text/css'>#password{border-color:red;}</style>";
