@@ -12,6 +12,7 @@ use DragonQuiz\Controller\UserController;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 use Middlewares\FastRoute;
+use DragonQuiz\Middleware\Auth;
 use Middlewares\RequestHandler;
 use Narrowspark\HttpEmitter\SapiEmitter;
 use Relay\Relay;
@@ -33,6 +34,7 @@ $containerBuilder->useAnnotations(false);
 $containerBuilder->addDefinitions([
     menu::class => create(menu::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
     Admin::class => create(Admin::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
+    Auth::class => create(Auth::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
     UserController::class => create(UserController::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
     'Response' => function() {
         return new Response();

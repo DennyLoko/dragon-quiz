@@ -20,10 +20,12 @@ class menu extends Controller
 
     public function __invoke(): ResponseInterface
     {
+        $cookies = getCookieParams();
+
         $response = $this->response->withHeader('Content-Type', 'text/html');
 
         $response->getBody()
-            ->write($this->twig->render('menu.html', ['name' => 'Danniel']));
+            ->write($this->twig->render('menu.html', ['cookie' => $cookies]));
 
         return $response;
 
