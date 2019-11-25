@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace DragonQuiz\Entity;
 
@@ -7,120 +7,124 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-* @ORM\Entity
-* @ORM\Table(name="users")
-*/
+ * This class represents a single user in the app.
+ * @ORM\Entity
+ * @ORM\Table(name="user")
+ */
 class User
 {
-		/**
-		* @ORM\Id
-		* @ORM\Column(type="integer")
-		* @ORM\GeneratedValue
-		*/
-		protected $id;
-	
-	 /**
-    * @ORM\Column(type="string")
-    */
+    /**
+   * @ORM\Id
+   * @ORM\GeneratedValue
+   * @ORM\Column(name="id")
+   */
+    protected $id;
+
+    /**
+   * @ORM\Column(name="username")
+   */
     protected $username;
-	
-	 /**
-    * @ORM\Column(type="string")
-    */
+
+    /**
+   * @ORM\Column(name="email")
+   */
     protected $email;
-	
-	 /**
-    * @ORM\Column(type="string")
-    */
-		protected $pass;
-		
 
-		/**
-		 * @ORM\OneToMany(targetEntity="Point", mappedBy="user")
-		 */
-		protected $points;
-	
-		
-		public function __construct(){
-			$this->points = new ArrayCollection();
-		}
-		
+    /**
+   * @ORM\Column(name="pass")
+   */
+    protected $pass;
 
-		/**
-     * @return mixed
+    /**
+     * @ORM\OneToMany(targetEntity="Score", mappedBy="user", cascade={"persist", "remove"})
      */
-		public function getId(){
-			return $this->id;
-		}
+    protected $scores;
 
+    public function __construct() {
+        $this->scores = new ArrayCollection();
+    }
 
-	 /**
-    * @param mixed $id
-    */
-		public function setId($id){
-			$this->id = $id;
-		}
+    // Returns ID of this User.
 
-		/**
-		 * @return string
-		 */
-		public function getUsername(): string{
-			return $this->username;
-		}
+    public function getId()
+    {
+        return $this->id;
+    }
 
-		/**
-		 * @param string $username
-		 */
-		public function setUsername(string $username){
-			$this->username = $username;
-		}
+    // Sets ID of this User.
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
-		/**
-		 * @return string
-		 */
-		public function getEmail(): string{
-			return $this->email;
-		}
+    // Returns username.
 
-		/**
-		 * @param string $email
-		 */
-		public function setEmail(string $email){
-			$this->email = $email;
-		}
+    public function getUsername()
+    {
+        return $this->username;
+    }
 
+    // Sets username.
 
-		/**
-		 * @return string
-		 */
-		public function getPass(): string{
-			return $this->pass;
-		}
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
 
-		/**
-		 * @param string $pass
-		 */
-		public function setPass(string $pass){
-			$this->pass = $pass;
-		}
+    // Returns email of this User.
 
-		/**
-		 * @return Collection
-		 */
-		public function getPoints(): Collection{
-			return $this->points;
-		}
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
-		/**
-		 * @param Collection $points
-		 */
-		public function setPoints(Collection $points){
-			$this->points = $points;
-		}
+    // Sets ID of this User.
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    // Returns username.
+
+    public function getPass()
+    {
+        return $this->pass;
+    }
+
+    // Sets username.
+
+    public function setPass($pass)
+    {
+        $this->pass = $pass;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getScores(): Collection
+    {
+        return $this->scores;
+    }
+
+    /**
+     * @param Collection $scores
+     */
+    public function setScores(Collection $scores)
+    {
+        $this->scores = $scores;
+    }
+
+    public function addScore (int $points)
+    {
+        $score = new Score();
+        $score->setPoints($points);
+        $this->scores->add($score);
+    }
+
+    public function getLastScore ()
+    {
+        return $this->scores->last();
+    }
 }
-
-
-
-
-

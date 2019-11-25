@@ -6,8 +6,11 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 use DI\ContainerBuilder;
 use function DI\create;
 use function DI\get;
+use DragonQuiz\Controller\Admin;
 use DragonQuiz\Controller\HelloWorld;
 use DragonQuiz\Controller\Ranking;
+use DragonQuiz\Controller\QuestionsAnswers;
+use DragonQuiz\Controller\UserController;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 use Middlewares\FastRoute;
@@ -19,6 +22,11 @@ use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
 
+if (PHP_OS != "Linux") {
+    $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'], (strlen('/dragon-quiz/public')));
+}
+
+session_start();
 
 require_once dirname(__DIR__) . '/bootstrap.php';
 
@@ -27,8 +35,36 @@ $containerBuilder->useAutowiring(false);
 $containerBuilder->useAnnotations(false);
 
 $containerBuilder->addDefinitions([
-    HelloWorld::class => create(HelloWorld::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
-    Ranking::class => create(Ranking::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
+    Ranking::class => create(Ranking::class)
+        ->constructor(
+            get('Response'), 
+            get('Twig'), 
+            get('EntityManager')
+        ),
+    Admin::class => create(Admin::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
+    QuestionsAnswers::class => create(QuestionsAnswers::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
+    HelloWorld::class => create(HelloWorld::class)
+        ->constructor(
+            get('Response'), 
+            get('Twig'), 
+            get('EntityManager')
+        ),
+    UserController::class => create(UserController::class)
+        ->constructor(
+            get('Response'),
+            get('Twig'),
+            get('EntityManager')
+        ),
     'Response' => function() {
         return new Response();
     },
@@ -51,6 +87,19 @@ $container = $containerBuilder->build();
 $routes = simpleDispatcher(function (RouteCollector $r) {
     $r->get('/', HelloWorld::class);
     $r->get('/ranking', Ranking::class);
+
+    $r->get('/admin', Admin::class);
+    $r->post('/admin', Admin::class);
+
+    $r->get('/jogo', [QuestionsAnswers::class, 'index']);
+    $r->post('/jogo', [QuestionsAnswers::class, 'updatePoints']);
+
+    $r->get('/register', UserController::class);
+    $r->post('/register', UserController::class);
+
+    $r->get('/login', UserController::class);
+    $r->post('/login', UserController::class);
+
 });
 
 $middlewareQueue[] = new FastRoute($routes);

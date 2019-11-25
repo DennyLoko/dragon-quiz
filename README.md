@@ -6,6 +6,7 @@ Trabalho de POO da Una Betim
 
 - Danniel Magno
 - Gabriel Vitor
+- Giovanna Gil
 - Guilherme Chaves
 - Hermes Francisco
 - Jonathan Araujo
