@@ -19,7 +19,7 @@ class Score
     protected $id;
 
     /**
-     * @ORM\Column(name="integer")
+     * @ORM\Column(name="points")
      */
     protected $points;
 
