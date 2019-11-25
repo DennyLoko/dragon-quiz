@@ -7,7 +7,7 @@ use DI\ContainerBuilder;
 use function DI\create;
 use function DI\get;
 use DragonQuiz\Controller\HelloWorld;
-use DragonQuiz\Controller\RankController;
+use DragonQuiz\Controller\Ranking;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 use Middlewares\FastRoute;
@@ -19,6 +19,7 @@ use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
 
+
 require_once dirname(__DIR__) . '/bootstrap.php';
 
 $containerBuilder = new ContainerBuilder();
@@ -27,6 +28,7 @@ $containerBuilder->useAnnotations(false);
 
 $containerBuilder->addDefinitions([
     HelloWorld::class => create(HelloWorld::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
+    Ranking::class => create(Ranking::class)->constructor(get('Response'), get('Twig'), get('EntityManager')),
     'Response' => function() {
         return new Response();
     },
@@ -48,7 +50,7 @@ $container = $containerBuilder->build();
 
 $routes = simpleDispatcher(function (RouteCollector $r) {
     $r->get('/', HelloWorld::class);
-    $r->get('/ranking', RankController::class);
+    $r->get('/ranking', Ranking::class);
 });
 
 $middlewareQueue[] = new FastRoute($routes);
