@@ -13,7 +13,7 @@
 <table width='500px'><tr><td>
         <form method="POST" action="">
             <label>
-                <h1 align='center'>{{ question.getQuestion() }}</h1>
+                <h1 align='center'>{{ question.getQuestion() | raw }}</h1>
             </label>
 
             <br>
